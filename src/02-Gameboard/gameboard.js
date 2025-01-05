@@ -1,20 +1,44 @@
 import { createBoard } from "./create-board.js";
 import { Ship } from "../01-ship/ship.js";
 import { addShip } from "./addShip.js";
+import { attack } from "./receiveAttack.js";
 
 export function Gameboard() {
   let board = createBoard();
 
+  let missedAttacks = [];
+
   const getBoard = () => board;
+
+  let shipsSunk = 0;
+
+  const getShipSunk = () => shipsSunk;
+
+  const addShipsSunk = () => (shipsSunk += 1);
+
+  function allShipSunk() {
+    if (getShipSunk() === 5) {
+      return true;
+    } else {
+      false;
+    }
+  }
 
   function placeShip(name, length, start, end) {
     let ship = new Ship(name, length);
 
-    addShip(board, ship, start, end);
+    addShip(ship, start, end, board);
+  }
+
+  function receiveAttack(coordinate) {
+    attack(coordinate, board, missedAttacks, addShipsSunk);
   }
 
   return {
     getBoard,
     placeShip,
+    receiveAttack,
+    missedAttacks,
+    allShipSunk,
   };
 }

@@ -15,7 +15,8 @@ test("Should place ship in board", () => {
     [[], [], [], [], [], [], [], [], [], []],
     [[], [], [], [], [], [], [], [], [], []],
   ];
-  addShip(board, ship, [0, 0], [0, 1]);
+  addShip(ship, [0, 0], [0, 1], board);
 
   expect(board[0][0]).toBe(ship);
+  expect(board[0][1]).toBe(ship);
 });
