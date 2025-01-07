@@ -14,13 +14,13 @@ export function Gameboard() {
 
   const getShipSunk = () => shipsSunk;
 
-  const addShipsSunk = () => (shipsSunk += 1);
+  function addShipsSunk() {
+    shipsSunk += 1;
+  }
 
-  function allShipSunk() {
+  function totalShipSunk() {
     if (getShipSunk() === 5) {
       return true;
-    } else {
-      false;
     }
   }
 
@@ -39,6 +39,6 @@ export function Gameboard() {
     placeShip,
     receiveAttack,
     missedAttacks,
-    allShipSunk,
+    totalShipSunk,
   };
 }

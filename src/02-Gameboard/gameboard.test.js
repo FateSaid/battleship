@@ -70,6 +70,6 @@ describe("Sinking Ship", () => {
     game.receiveAttack([5, 2]);
     game.receiveAttack([6, 2]);
 
-    expect(game.allShipSunk()).toBeTruthy();
+    expect(game.totalShipSunk()).toBeTruthy();
   });
 });
