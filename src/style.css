@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "stancil";
+  src: url("./BlackOpsOne-Regular.ttf");
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 10rem;
+  font-family: "stancil", system-ui, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.board {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.player-board {
+  border: 1px solid #000;
+  width: 600px;
+  height: 600px;
+}
+
+#first-player-board,
+#second-player-board {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.row {
+  display: flex;
+  flex: 1;
+}
+
+.cell {
+  border: 1px solid #b3b2b2;
+  flex: 1;
+}
+
+.ship {
+  background-color: darkblue;
+}
+
+.missed {
+  background-color: red;
+}
+
+.damage {
+  background-color: black;
+}
+
+.result {
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  height: 300px;
+  align-items: center;
+}
+
+header,
+footer {
+  display: flex;
+  border: 1px solid #000;
+  justify-content: center;
+}

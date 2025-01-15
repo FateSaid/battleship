@@ -1,9 +1,10 @@
 export function attack(coordinate, board, missedAttacks, addShipsSunk) {
   let [x, y] = coordinate;
 
-  if (!Array.isArray(board[x][y])) {
-    board[x][y].hit();
-    if (board[x][y].isSunk()) {
+  if (board[x][y].length === 2) {
+    board[x][y][0].hit();
+    board[x][y][1] = 1;
+    if (board[x][y][0].isSunk()) {
       addShipsSunk();
     }
   } else {

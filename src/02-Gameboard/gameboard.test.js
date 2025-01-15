@@ -14,7 +14,7 @@ describe("Gameboard", () => {
     let ship = new Ship("Patrol Boat", 2);
 
     let board = [
-      [ship, ship, [], [], [], [], [], [], [], []],
+      [[ship, 0], [ship, 0], [], [], [], [], [], [], [], []],
       [[], [], [], [], [], [], [], [], [], []],
       [[], [], [], [], [], [], [], [], [], []],
       [[], [], [], [], [], [], [], [], [], []],
@@ -35,7 +35,7 @@ describe("Receiving Attack", () => {
   test("Should hit ship", () => {
     game.receiveAttack([5, 5]);
 
-    expect(game.getBoard()[5][5].timesHit).toBe(1);
+    expect(game.getBoard()[5][5][0].timesHit).toBe(1);
   });
 
   test("Should store missed attacks", () => {

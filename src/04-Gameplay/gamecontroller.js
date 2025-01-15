@@ -8,6 +8,10 @@ export function GameController(player1, player2) {
 
   const getActivePlayer = () => activePlayer;
 
+  function getPlayers() {
+    return players;
+  }
+
   function switchPlayer() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   }
@@ -26,9 +30,9 @@ export function GameController(player1, player2) {
 
     if (checkWinner(opponent)) {
       return `Winner is ${getActivePlayer().name}`;
+    } else {
+      switchPlayer();
     }
-
-    switchPlayer();
   }
 
   function checkWinner(opponent) {
@@ -41,5 +45,6 @@ export function GameController(player1, player2) {
     getActivePlayer,
     getOpponent,
     playRound,
+    getPlayers,
   };
 }

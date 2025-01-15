@@ -1,9 +1,9 @@
 import { GameController } from "../04-Gameplay/gamecontroller.js";
 import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
 
-export function ScreenController(player1, player2) {
-  const gameplay = GameController(player1, player2);
-
+export function ScreenController() {
+  const gameplay = GameController("User", "Computer");
+  playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
   updateScreen(gameplay);
 }
 
@@ -11,8 +11,6 @@ function updateScreen(gameplay) {
   clearBoard();
 
   const players = gameplay.getPlayers();
-
-  playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
 
   createDivCell(playerOneBoard, players[0], gameplay);
   createDivCell(playerTwoBoard, players[1], gameplay);
@@ -65,7 +63,11 @@ function displayMissedAttacks(player, x, y) {
 
 function eventHandler(x, y, gameplay, cell) {
   cell.addEventListener("click", () => {
-    gameplay.playRound([x, y]);
+    if (typeof gameplay.playRound([x, y]) === "string") {
+      resultOutput(`Winner is ${gameplay.getActivePlayer().name}`);
+    } else {
+      playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
+    }
     updateScreen(gameplay);
   });
 }

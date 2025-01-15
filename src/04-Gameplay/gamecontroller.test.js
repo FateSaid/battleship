@@ -16,7 +16,9 @@ describe("Playround", () => {
 
   it("User should attack Computer board and hit target", () => {
     gameplay.playRound([5, 0]);
-    expect(gameplay.getActivePlayer().game.getBoard()[5][0].timesHit).toBe(1);
+    expect(gameplay.getActivePlayer().game.getBoard()[5][0][0].timesHit).toBe(
+      1
+    );
   });
 
   it("User should miss and store missedAttack coordinate", () => {

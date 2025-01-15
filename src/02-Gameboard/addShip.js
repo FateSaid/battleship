@@ -24,17 +24,17 @@ function loopCoordinates(same, diff, pos, ship, board) {
 
   for (let i = diff1; i >= diff2; i--) {
     if (pos === "horizontal") {
-      if (board[same][i] === ship) {
+      if (board[same][i][0] === ship) {
         throw new Error("It already contains ship object");
       }
-      board[same][i] = ship;
+      board[same][i] = [ship, 0];
     }
 
     if (pos === "vertical") {
-      if (board[i][same] === ship) {
+      if (board[i][same][0] === ship) {
         throw new Error("It already contains ship object");
       }
-      board[i][same] = ship;
+      board[i][same] = [ship, 0];
     }
   }
 }
