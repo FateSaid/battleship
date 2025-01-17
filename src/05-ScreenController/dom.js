@@ -13,4 +13,38 @@ function resultOutput(text) {
   result.textContent = text;
 }
 
-export { playerOneBoard, playerTwoBoard, resultOutput };
+function toggleDisableBoard() {
+  const playerBoard = document.querySelectorAll(".player-board");
+
+  let activeBoard = playerBoard[0];
+
+  function switchBoard() {
+    activeBoard =
+      activeBoard === playerBoard[0] ? playerBoard[1] : playerBoard[0];
+    switchDisable(getActiveBoard(), getOpponentBoard());
+  }
+
+  const getActiveBoard = () => activeBoard;
+
+  function getOpponentBoard() {
+    let opponent =
+      activeBoard === playerBoard[0] ? playerBoard[1] : playerBoard[0];
+    return opponent;
+  }
+  function switchDisable(player, opponent) {
+    disableBoard(player, opponent);
+  }
+
+  switchDisable(getActiveBoard(), getOpponentBoard());
+
+  return {
+    switchBoard,
+  };
+}
+
+function disableBoard(player, opponent) {
+  player.classList.add("disable");
+  opponent.classList.remove("disable");
+}
+
+export { playerOneBoard, playerTwoBoard, resultOutput, toggleDisableBoard };

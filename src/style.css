@@ -73,6 +73,10 @@ body {
   background-color: black;
 }
 
+.disable {
+  pointer-events: none;
+}
+
 .result {
   border: 1px solid #000;
   display: flex;

@@ -1,26 +1,34 @@
 import { GameController } from "../04-Gameplay/gamecontroller.js";
-import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
+import {
+  playerOneBoard,
+  playerTwoBoard,
+  resultOutput,
+  toggleDisableBoard,
+} from "./dom.js";
 
 export function ScreenController() {
   const gameplay = GameController("User", "Computer");
+
+  const disableBoard = toggleDisableBoard();
+
   playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
-  updateScreen(gameplay);
+  updateScreen(gameplay, disableBoard);
 }
 
-function updateScreen(gameplay) {
+function updateScreen(gameplay, disableBoard) {
   clearBoard();
 
   const players = gameplay.getPlayers();
 
-  createDivCell(playerOneBoard, players[0], gameplay);
-  createDivCell(playerTwoBoard, players[1], gameplay);
+  createDivCell(playerOneBoard, players[0], gameplay, disableBoard);
+  createDivCell(playerTwoBoard, players[1], gameplay, disableBoard);
 }
 
 function playerTurn(player) {
   resultOutput(player);
 }
 
-function createDivCell(domBoard, player, gameplay) {
+function createDivCell(domBoard, player, gameplay, disableBoard) {
   let board = player.game.getBoard();
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement("div");
@@ -43,7 +51,7 @@ function createDivCell(domBoard, player, gameplay) {
         cell.classList.add("missed");
       }
       row.appendChild(cell);
-      eventHandler(i, j, gameplay, cell);
+      eventHandler(i, j, gameplay, cell, disableBoard);
     }
     domBoard(row);
   }
@@ -61,14 +69,15 @@ function displayMissedAttacks(player, x, y) {
   return false;
 }
 
-function eventHandler(x, y, gameplay, cell) {
+function eventHandler(x, y, gameplay, cell, disableBoard) {
   cell.addEventListener("click", () => {
     if (typeof gameplay.playRound([x, y]) === "string") {
       resultOutput(`Winner is ${gameplay.getActivePlayer().name}`);
     } else {
       playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
+      disableBoard.switchBoard();
     }
-    updateScreen(gameplay);
+    updateScreen(gameplay, disableBoard);
   });
 }
 
