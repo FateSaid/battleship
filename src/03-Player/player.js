@@ -1,6 +1,6 @@
 import { Gameboard } from "../02-Gameboard/gameboard.js";
 
-export function Player(name) {
+function Player(name) {
   const game = Gameboard();
 
   return {
@@ -8,3 +8,15 @@ export function Player(name) {
     game,
   };
 }
+
+function Computer() {
+  const name = "Computer";
+  const game = Gameboard();
+
+  return {
+    name,
+    game,
+  };
+}
+
+export { Player, Computer };
