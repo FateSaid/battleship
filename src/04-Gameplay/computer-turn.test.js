@@ -11,7 +11,7 @@ describe("Testing Computer action", () => {
 
   test("Computer should not attack same coordinates", () => {
     gameplay.playRound([9, 9]);
-    gameplay.playRound([0, 0]);
+    gameplay.playRound([0, 5]);
     gameplay.playRound([9, 9]);
     let activeMissed = gameplay.getActivePlayer().game.missedAttacks;
 
@@ -25,6 +25,7 @@ describe("Testing Computer action", () => {
       }
       return true;
     }
+
     expect(checkDuplicate(activeMissed)).toBeTruthy();
   });
 });

@@ -33,7 +33,11 @@ export function GameController(player1, player2) {
 
     let opponent = getOpponent();
 
-    opponent.game.receiveAttack([x, y]);
+    let missedArray = opponent.game.missedAttacks;
+
+    if (checkDuplicate(missedArray, coordinates)) {
+      opponent.game.receiveAttack([x, y]);
+    }
 
     if (checkWinner(opponent)) {
       return `Winner is ${getActivePlayer().name}`;
@@ -54,4 +58,16 @@ export function GameController(player1, player2) {
     playRound,
     getPlayers,
   };
+}
+
+function checkDuplicate(array, coordinate) {
+  let stringArray = array.map(JSON.stringify);
+  let stringCoordinate = JSON.stringify(coordinate);
+
+  for (let i = 0; i < stringArray.length; i++) {
+    if (stringArray[i] === stringCoordinate) {
+      return false;
+    }
+  }
+  return true;
 }
