@@ -1,8 +1,15 @@
 import { createPlayer } from "./create-player.js";
+import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
 
 export function GameController(player1, player2) {
-  let players = [createPlayer(player1), createPlayer(player2)];
+  let players;
+
+  if (player2 === "Computer") {
+    players = [createPlayer(player1), Computer()];
+  } else {
+    players = [createPlayer(player1), createPlayer(player2)];
+  }
 
   let activePlayer = players[0];
 
