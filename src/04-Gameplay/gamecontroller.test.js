@@ -1,18 +1,18 @@
 import { GameController } from "./gamecontroller.js";
 
 describe("Testing Gameplay", () => {
-  let gameplay = GameController("User", "Computer");
+  let gameplay = GameController("User", "User 2");
   it("Should unveil activePlayer", () => {
     expect(gameplay.getActivePlayer().name).toBe("User");
   });
 
   it("Should unveil opponent", () => {
-    expect(gameplay.getOpponent().name).toBe("Computer");
+    expect(gameplay.getOpponent().name).toBe("User 2");
   });
 });
 
 describe("Playround", () => {
-  let gameplay = GameController("User", "Computer");
+  let gameplay = GameController("User", "User 2");
 
   it("User should attack Computer board and hit target", () => {
     gameplay.playRound([5, 0]);
@@ -30,7 +30,7 @@ describe("Playround", () => {
 });
 
 describe("Calculate Winner", () => {
-  let gameplay = GameController("User", "Computer");
+  let gameplay = GameController("User", "User 2");
   /* Player 1 
   [0, 0], [0, 4];
   [4, 3], [4, 5];

@@ -1,6 +1,6 @@
 import { GameController } from "./gamecontroller.js";
 
-describe("Testing Computer action", () => {
+describe("Testing Player action", () => {
   let gameplay = GameController("User", "Computer");
 
   test("Player 2 should be computer", () => {
@@ -9,7 +9,7 @@ describe("Testing Computer action", () => {
     expect(players[1].name).toBe("Computer");
   });
 
-  test("Computer should not attack same coordinates", () => {
+  test("Player should not attack same coordinates", () => {
     gameplay.playRound([9, 9]);
     gameplay.playRound([0, 5]);
     gameplay.playRound([9, 9]);
@@ -27,5 +27,15 @@ describe("Testing Computer action", () => {
     }
 
     expect(checkDuplicate(activeMissed)).toBeTruthy();
+  });
+});
+
+describe("Testing Computer action", () => {
+  let gameplay = GameController("User", "Computer");
+
+  test("Computer should attack random coordinate", () => {
+    gameplay.playRound([0, 0]);
+
+    expect(gameplay.getActivePlayer().name).toBe("User");
   });
 });

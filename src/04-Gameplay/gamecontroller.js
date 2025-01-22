@@ -5,7 +5,7 @@ import { SetupShip } from "./setup-ship.js";
 export function GameController(player1, player2) {
   let players;
 
-  if (player2 === "Computer") {
+  if (player2 === "Computer" || player2 === undefined) {
     players = [createPlayer(player1), Computer()];
   } else {
     players = [createPlayer(player1), createPlayer(player2)];
@@ -44,6 +44,12 @@ export function GameController(player1, player2) {
     } else {
       switchPlayer();
     }
+
+    if (getActivePlayer().name === "Computer") {
+      let missedArray = getActivePlayer().game.missedAttacks;
+      let [a, b] = randomCoordinates(missedArray);
+      playRound([a, b]);
+    }
   }
 
   function checkWinner(opponent) {
@@ -70,4 +76,16 @@ function checkDuplicate(array, coordinate) {
     }
   }
   return true;
+}
+
+function randomCoordinates(missedArray) {
+  let x = Math.floor(Math.random() * 10);
+
+  let y = Math.floor(Math.random() * 10);
+
+  if (checkDuplicate(missedArray, [x, y])) {
+    return [x, y];
+  } else {
+    randomCoordinates(missedArray);
+  }
 }
