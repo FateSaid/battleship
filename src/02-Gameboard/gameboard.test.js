@@ -73,3 +73,13 @@ describe("Sinking Ship", () => {
     expect(game.totalShipSunk()).toBeTruthy();
   });
 });
+
+describe("Opponent board", () => {
+  const game = Gameboard();
+
+  it("Should store attacks", () => {
+    game.placeShip("Patrol Boat", 2, [0, 0], [0, 1]);
+    game.receiveAttack([0, 0]);
+    expect(game.hitAttacks).toEqual([[0, 0]]);
+  });
+});

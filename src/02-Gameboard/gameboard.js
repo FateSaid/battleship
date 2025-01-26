@@ -12,6 +12,8 @@ export function Gameboard() {
 
   let shipsSunk = 0;
 
+  let hitAttacks = [];
+
   const getShipSunk = () => shipsSunk;
 
   function addShipsSunk() {
@@ -31,7 +33,7 @@ export function Gameboard() {
   }
 
   function receiveAttack(coordinate) {
-    attack(coordinate, board, missedAttacks, addShipsSunk);
+    attack(coordinate, board, missedAttacks, addShipsSunk, hitAttacks);
   }
 
   return {
@@ -40,5 +42,6 @@ export function Gameboard() {
     receiveAttack,
     missedAttacks,
     totalShipSunk,
+    hitAttacks,
   };
 }
