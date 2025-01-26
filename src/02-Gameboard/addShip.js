@@ -27,14 +27,14 @@ function loopCoordinates(same, diff, pos, ship, board) {
       if (board[same][i][0] === ship) {
         throw new Error("It already contains ship object");
       }
-      board[same][i] = [ship, 0];
+      board[same][i] = ship;
     }
 
     if (pos === "vertical") {
       if (board[i][same][0] === ship) {
         throw new Error("It already contains ship object");
       }
-      board[i][same] = [ship, 0];
+      board[i][same] = ship;
     }
   }
 }

@@ -73,7 +73,9 @@ body {
   background-color: black;
 }
 
-.disable {
+.disable,
+.missed,
+.damage {
   pointer-events: none;
 }
 

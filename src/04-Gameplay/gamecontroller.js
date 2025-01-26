@@ -1,6 +1,7 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
+import { createBoard } from "../02-Gameboard/create-board.js";
 
 export function GameController(player1, player2) {
   let players;
@@ -56,6 +57,10 @@ export function GameController(player1, player2) {
     return opponent.game.totalShipSunk();
   }
 
+  function printOppBoard(player) {
+    let opponent = player.game.getOpponent();
+  }
+
   SetupShip(players[0], players[1]);
 
   return {
@@ -86,6 +91,6 @@ function randomCoordinates(missedArray) {
   if (checkDuplicate(missedArray, [x, y])) {
     return [x, y];
   } else {
-    randomCoordinates(missedArray);
+    return randomCoordinates(missedArray);
   }
 }

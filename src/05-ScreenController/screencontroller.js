@@ -13,16 +13,17 @@ function updateScreen(gameplay) {
 
   const players = gameplay.getPlayers();
 
-  createDivCell(playerOneBoard, players[0], gameplay);
-  createDivCell(playerTwoBoard, players[1], gameplay);
+  createDivCell(playerOneBoard, players[0], gameplay, "player 1");
+  createDivCell(playerTwoBoard, players[1], gameplay, "computer");
 }
 
 function playerTurn(player) {
   resultOutput(player);
 }
 
-function createDivCell(domBoard, player, gameplay) {
+function createDivCell(domBoard, player, gameplay, status) {
   let board = player.game.getBoard();
+  let arrayAttacks = player.game.hitAttacks;
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement("div");
     row.classList.add("row");
@@ -31,13 +32,19 @@ function createDivCell(domBoard, player, gameplay) {
       cell.classList.add("cell");
 
       //show ship location on board
-      if (board[i][j].length === 2) {
-        cell.classList.add("ship");
+      if (status !== "computer") {
+        if (!Array.isArray(board[i][j])) {
+          cell.classList.add("ship");
+        }
       }
+
       //show damaged ship
-      if (board[i][j][1] === 1) {
-        cell.classList.add("damage");
-      }
+      arrayAttacks.forEach((item) => {
+        let [a, b] = item;
+        if (i === a && b === j) {
+          cell.classList.add("damage");
+        }
+      });
 
       //show missed
       if (displayMissedAttacks(player, i, j)) {
