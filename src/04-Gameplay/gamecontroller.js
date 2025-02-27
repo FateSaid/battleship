@@ -1,9 +1,9 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
-import { createBoard } from "../02-Gameboard/create-board.js";
+import { generateComputerMove } from "./computer-move.js";
 
-export function GameController(player1, player2) {
+function GameController(player1, player2) {
   let players;
 
   if (player2 === "Computer" || player2 === undefined) {
@@ -35,9 +35,12 @@ export function GameController(player1, player2) {
     let opponent = getOpponent();
 
     let missedArray = opponent.game.missedAttacks;
+    let hitArray = opponent.game.hitAttacks;
 
     if (checkDuplicate(missedArray, coordinates)) {
       opponent.game.receiveAttack([x, y]);
+    } else {
+      throw new Error("Coordinates are duplicate");
     }
 
     if (checkWinner(opponent)) {
@@ -45,20 +48,18 @@ export function GameController(player1, player2) {
     } else {
       switchPlayer();
     }
-
     if (getActivePlayer().name === "Computer") {
-      let missedArray = getActivePlayer().game.missedAttacks;
-      let [a, b] = randomCoordinates(missedArray);
+      let [a, b] = generateComputerMove(
+        hitArray,
+        missedArray,
+        opponent.game.getBoard()
+      );
       playRound([a, b]);
     }
   }
 
   function checkWinner(opponent) {
     return opponent.game.totalShipSunk();
-  }
-
-  function printOppBoard(player) {
-    let opponent = player.game.getOpponent();
   }
 
   SetupShip(players[0], players[1]);
@@ -83,14 +84,16 @@ function checkDuplicate(array, coordinate) {
   return true;
 }
 
-function randomCoordinates(missedArray) {
+function randomCoordinates(combinedArray) {
   let x = Math.floor(Math.random() * 10);
 
   let y = Math.floor(Math.random() * 10);
 
-  if (checkDuplicate(missedArray, [x, y])) {
+  if (checkDuplicate(combinedArray, [x, y])) {
     return [x, y];
   } else {
-    return randomCoordinates(missedArray);
+    return randomCoordinates(combinedArray);
   }
 }
+
+export { GameController, randomCoordinates, checkDuplicate };

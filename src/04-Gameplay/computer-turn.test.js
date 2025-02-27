@@ -12,21 +12,7 @@ describe("Testing Player action", () => {
   test("Player should not attack same coordinates", () => {
     gameplay.playRound([9, 9]);
     gameplay.playRound([0, 5]);
-    gameplay.playRound([9, 9]);
-    let activeMissed = gameplay.getActivePlayer().game.missedAttacks;
-
-    function checkDuplicate(array) {
-      let stringArray = array.map(JSON.stringify);
-
-      for (let i = 0; i < stringArray.length; i++) {
-        if (stringArray.indexOf(stringArray[i]) !== i) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    expect(checkDuplicate(activeMissed)).toBeTruthy();
+    expect(() => gameplay.playRound([9, 9])).toThrow();
   });
 });
 
@@ -38,4 +24,14 @@ describe("Testing Computer action", () => {
 
     expect(gameplay.getActivePlayer().name).toBe("User");
   });
+});
+
+describe("Checking hitAttacks and missedAttacks", () => {
+  let gameplay = GameController("User", "Tom");
+
+  gameplay.playRound([0, 0]);
+
+  gameplay.playRound([1, 1]);
+
+  expect(gameplay.getActivePlayer().game.hitAttacks).toEqual([]);
 });
