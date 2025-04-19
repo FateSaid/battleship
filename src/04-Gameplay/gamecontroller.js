@@ -1,9 +1,9 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
-import { generateComputerMove } from "./computer-move.js";
+import { createBoard } from "../02-Gameboard/create-board.js";
 
-function GameController(player1, player2) {
+export function GameController(player1, player2) {
   let players;
 
   if (player2 === "Computer" || player2 === undefined) {
@@ -35,12 +35,11 @@ function GameController(player1, player2) {
     let opponent = getOpponent();
 
     let missedArray = opponent.game.missedAttacks;
-    let hitArray = opponent.game.hitAttacks;
 
     if (checkDuplicate(missedArray, coordinates)) {
       opponent.game.receiveAttack([x, y]);
     } else {
-      throw new Error("Coordinates are duplicate");
+      throw new Error("Duplicate");
     }
 
     if (checkWinner(opponent)) {
@@ -48,18 +47,20 @@ function GameController(player1, player2) {
     } else {
       switchPlayer();
     }
+
     if (getActivePlayer().name === "Computer") {
-      let [a, b] = generateComputerMove(
-        hitArray,
-        missedArray,
-        opponent.game.getBoard()
-      );
+      let missedArray = getActivePlayer().game.missedAttacks;
+      let [a, b] = randomCoordinates(missedArray);
       playRound([a, b]);
     }
   }
 
   function checkWinner(opponent) {
     return opponent.game.totalShipSunk();
+  }
+
+  function printOppBoard(player) {
+    let opponent = player.game.getOpponent();
   }
 
   SetupShip(players[0], players[1]);
@@ -84,16 +85,14 @@ function checkDuplicate(array, coordinate) {
   return true;
 }
 
-function randomCoordinates(combinedArray) {
+function randomCoordinates(missedArray) {
   let x = Math.floor(Math.random() * 10);
 
   let y = Math.floor(Math.random() * 10);
 
-  if (checkDuplicate(combinedArray, [x, y])) {
+  if (checkDuplicate(missedArray, [x, y])) {
     return [x, y];
   } else {
-    return randomCoordinates(combinedArray);
+    return randomCoordinates(missedArray);
   }
 }
-
-export { GameController, randomCoordinates, checkDuplicate };
