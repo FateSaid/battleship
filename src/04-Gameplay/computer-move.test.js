@@ -31,7 +31,6 @@ describe("Generate computer coordinates", () => {
 
     totalArray.pop();
 
-    let [x, y] = randomCoordinate(totalArray);
-    expect([x, y]).toEqual([9, 9]);
+    expect(randomCoordinate(totalArray)).toEqual([9, 9]);
   });
 });

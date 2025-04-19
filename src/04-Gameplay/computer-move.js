@@ -8,7 +8,7 @@ function randomCoordinate(totalArray) {
   if (!checkDuplicate(totalArray, [x, y])) {
     return [x, y];
   } else {
-    throw new Error("Duplicate");
+    return randomCoordinate(totalArray);
   }
 }
 
