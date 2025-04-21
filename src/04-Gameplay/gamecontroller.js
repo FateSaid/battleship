@@ -35,8 +35,11 @@ export function GameController(player1, player2) {
     let opponent = getOpponent();
 
     let missedArray = opponent.game.missedAttacks;
+    let hitArray = opponent.game.hitAttacks;
 
-    if (checkDuplicate(missedArray, coordinates)) {
+    let combinedArray = missedArray.concat(hitArray);
+
+    if (checkDuplicate(combinedArray, coordinates)) {
       opponent.game.receiveAttack([x, y]);
     } else {
       throw new Error("Duplicate");
@@ -49,8 +52,10 @@ export function GameController(player1, player2) {
     }
 
     if (getActivePlayer().name === "Computer") {
-      let missedArray = getActivePlayer().game.missedAttacks;
-      let [a, b] = randomCoordinates(missedArray);
+      let missedArray = getOpponent().game.missedAttacks;
+      let hitArray = getOpponent().game.hitAttacks;
+      let combinedArray = missedArray.concat(hitArray);
+      let [a, b] = randomCoordinates(combinedArray);
       playRound([a, b]);
     }
   }
@@ -85,14 +90,14 @@ function checkDuplicate(array, coordinate) {
   return true;
 }
 
-function randomCoordinates(missedArray) {
+function randomCoordinates(array) {
   let x = Math.floor(Math.random() * 10);
 
   let y = Math.floor(Math.random() * 10);
 
-  if (checkDuplicate(missedArray, [x, y])) {
+  if (checkDuplicate(array, [x, y])) {
     return [x, y];
   } else {
-    return randomCoordinates(missedArray);
+    return randomCoordinates(array);
   }
 }

@@ -42,6 +42,14 @@ describe("Receiving Attack", () => {
     game.receiveAttack([0, 0]);
     expect(game.missedAttacks).toContainEqual([0, 0]);
   });
+
+  test("Should store hit attacks", () => {
+    game.receiveAttack([5, 7]);
+
+    let stringArray = game.hitAttacks.map((el) => JSON.stringify(el));
+
+    expect(stringArray).toContainEqual("[5,7]");
+  });
 });
 
 describe("Sinking Ship", () => {
