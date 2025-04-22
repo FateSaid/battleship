@@ -1,6 +1,9 @@
 function computerMove(opponent) {
   let missedArray = opponent.game.missedAttacks;
   let hitArray = opponent.game.hitAttacks;
+  if (checkHitAttacks(opponent).length > 0) {
+    calculateNextTarget(opponent);
+  }
   let combinedArray = missedArray.concat(hitArray);
   let [a, b] = randomCoordinates(combinedArray);
   return [a, b];
@@ -16,6 +19,54 @@ function checkDuplicate(array, coordinate) {
     }
   }
   return true;
+}
+
+function calculateNextTarget(opponent) {
+  //here function for producing potential moves
+
+  potentialMove(opponent);
+}
+
+function potentialMove(opp) {
+  let board = opp.game.getBoard();
+  let hitArray = opp.game.hitAttacks;
+  let shipsNotSunk = checkHitAttacks(opp);
+
+  for (let i = 0; i < shipsNotSunk.length; i++) {
+    let [x, y] = shipsNotSunk[i];
+
+    if (
+      x + 1 <= 9 &&
+      !Array.isArray(board[x + 1][y]) &&
+      checkDuplicate(hitArray, [x + 1, y])
+    ) {
+      return [x + 1, y];
+    }
+
+    if (
+      x - 1 <= 9 &&
+      !Array.isArray(board[x - 1][y]) &&
+      checkDuplicate(hitArray, [x - 1, y])
+    ) {
+      return [x - 1, y];
+    }
+
+    if (
+      y + 1 <= 9 &&
+      !Array.isArray(board[x][y + 1]) &&
+      checkDuplicate(hitArray, [x, y + 1])
+    ) {
+      return [x, y + 1];
+    }
+
+    if (
+      y - 1 <= 9 &&
+      !Array.isArray(board[x][y - 1]) &&
+      checkDuplicate(hitArray, [x, y - 1])
+    ) {
+      return [x, y - 1];
+    }
+  }
 }
 
 function checkHitAttacks(opp) {
@@ -42,4 +93,10 @@ function randomCoordinates(array) {
   }
 }
 
-export { randomCoordinates, checkHitAttacks, checkDuplicate, computerMove };
+export {
+  randomCoordinates,
+  checkHitAttacks,
+  checkDuplicate,
+  computerMove,
+  potentialMove,
+};

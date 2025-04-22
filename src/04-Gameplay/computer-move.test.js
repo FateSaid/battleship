@@ -2,6 +2,7 @@ import {
   randomCoordinates,
   checkHitAttacks,
   checkDuplicate,
+  potentialMove,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
 
@@ -76,4 +77,29 @@ describe("Generate computer coordinates", () => {
 
     expect(calculateNextTarget(firstPlayer)).toEqual([4, 4]);
   });
+});
+
+test("Computer potential move", () => {
+  let gameplay = GameController("Ron", "Artest");
+
+  gameplay.playRound([3, 6]);
+  gameplay.playRound([4, 5]);
+  gameplay.playRound([3, 7]);
+
+  expect([
+    [3, 8],
+    [2, 7],
+    [4, 7],
+  ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
+
+  gameplay.playRound([6, 6]);
+  gameplay.playRound([3, 8]);
+
+  console.log(potentialMove(gameplay.getActivePlayer()));
+
+  expect([
+    [3, 9],
+    [4, 8],
+    [2, 8],
+  ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
 });
