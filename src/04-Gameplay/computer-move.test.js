@@ -1,6 +1,6 @@
 import {
-  generateComputerMove,
-  randomCoordinate,
+  randomCoordinates,
+  checkHitAttacks,
   checkDuplicate,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
@@ -12,6 +12,16 @@ describe("Generate computer coordinates", () => {
         [
           [1, 2],
           [1, 1],
+        ],
+        [1, 3]
+      )
+    ).toBeTruthy();
+
+    expect(
+      checkDuplicate(
+        [
+          [1, 2],
+          [1, 3],
         ],
         [1, 3]
       )
@@ -32,7 +42,19 @@ describe("Generate computer coordinates", () => {
 
     totalArray.pop();
 
-    expect(randomCoordinate(totalArray)).toEqual([9, 9]);
+    expect(randomCoordinates(totalArray)).toEqual([9, 9]);
+  });
+
+  test("Should check hitAttack array for unsunk ships", () => {
+    let round = GameController("Sam", "Cowell");
+    round.playRound([0, 9]);
+
+    expect(checkHitAttacks(round.getActivePlayer())).toContainEqual([0, 9]);
+
+    round.playRound([3, 6]);
+    round.playRound([1, 9]);
+
+    expect(checkHitAttacks(round.getActivePlayer())).toEqual([]);
   });
 
   test("Should hit adjacent space when there is a direct hit", () => {

@@ -1,7 +1,7 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
-import { createBoard } from "../02-Gameboard/create-board.js";
+import { computerMove, checkDuplicate } from "./computer-move.js";
 
 export function GameController(player1, player2) {
   let players;
@@ -69,36 +69,4 @@ export function GameController(player1, player2) {
     playRound,
     getPlayers,
   };
-}
-
-function computerMove(opponent) {
-  let missedArray = opponent.game.missedAttacks;
-  let hitArray = opponent.game.hitAttacks;
-  let combinedArray = missedArray.concat(hitArray);
-  let [a, b] = randomCoordinates(combinedArray);
-  return [a, b];
-}
-
-function checkDuplicate(array, coordinate) {
-  let stringArray = array.map(JSON.stringify);
-  let stringCoordinate = JSON.stringify(coordinate);
-
-  for (let i = 0; i < stringArray.length; i++) {
-    if (stringArray[i] === stringCoordinate) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function randomCoordinates(array) {
-  let x = Math.floor(Math.random() * 10);
-
-  let y = Math.floor(Math.random() * 10);
-
-  if (checkDuplicate(array, [x, y])) {
-    return [x, y];
-  } else {
-    return randomCoordinates(array);
-  }
 }

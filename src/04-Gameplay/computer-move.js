@@ -1,27 +1,45 @@
-function generateComputerMove(hitAttacks, missedAttacks, board) {}
+function computerMove(opponent) {
+  let missedArray = opponent.game.missedAttacks;
+  let hitArray = opponent.game.hitAttacks;
+  let combinedArray = missedArray.concat(hitArray);
+  let [a, b] = randomCoordinates(combinedArray);
+  return [a, b];
+}
 
-//get randomCoordinate to be recursive
+function checkDuplicate(array, coordinate) {
+  let stringArray = array.map(JSON.stringify);
+  let stringCoordinate = JSON.stringify(coordinate);
 
-function randomCoordinate(totalArray) {
-  let [x, y] = createCoordinate();
+  for (let i = 0; i < stringArray.length; i++) {
+    if (stringArray[i] === stringCoordinate) {
+      return false;
+    }
+  }
+  return true;
+}
 
-  if (!checkDuplicate(totalArray, [x, y])) {
+function checkHitAttacks(opp) {
+  let hitArray = opp.game.hitAttacks;
+  let board = opp.game.getBoard();
+
+  return hitArray.filter((el) => {
+    let [x, y] = el;
+    if (!board[x][y].isSunk()) {
+      return el;
+    }
+  });
+}
+
+function randomCoordinates(array) {
+  let x = Math.floor(Math.random() * 10);
+
+  let y = Math.floor(Math.random() * 10);
+
+  if (checkDuplicate(array, [x, y])) {
     return [x, y];
   } else {
-    return randomCoordinate(totalArray);
+    return randomCoordinates(array);
   }
 }
 
-function checkDuplicate(totalArray, coordinate) {
-  let stringTotal = totalArray.map((item) => JSON.stringify(item));
-  let stringCoordinate = JSON.stringify(coordinate);
-  return stringTotal.includes(stringCoordinate);
-}
-
-function createCoordinate() {
-  let x = Math.floor(Math.random() * 10);
-  let y = Math.floor(Math.random() * 10);
-  return [x, y];
-}
-
-export { randomCoordinate, checkDuplicate };
+export { randomCoordinates, checkHitAttacks, checkDuplicate, computerMove };
