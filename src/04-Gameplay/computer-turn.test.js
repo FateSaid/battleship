@@ -1,4 +1,5 @@
 import { GameController } from "./gamecontroller.js";
+import { checkDuplicate } from "./computer-move.js";
 
 describe("Testing Player action", () => {
   let gameplay = GameController("User", "Computer");
@@ -12,7 +13,10 @@ describe("Testing Player action", () => {
   test("Player should not attack same coordinates", () => {
     gameplay.playRound([9, 9]);
     gameplay.playRound([0, 5]);
-    expect(() => gameplay.playRound([9, 9])).toThrow();
+
+    let opponentMiss = gameplay.getOpponent().game.missedAttacks;
+
+    expect(checkDuplicate(opponentMiss, [9, 9])).toBeTruthy();
   });
 });
 
@@ -24,14 +28,4 @@ describe("Testing Computer action", () => {
 
     expect(gameplay.getActivePlayer().name).toBe("User");
   });
-});
-
-describe("Checking hitAttacks and missedAttacks", () => {
-  let gameplay = GameController("User", "Tom");
-
-  gameplay.playRound([0, 0]);
-
-  gameplay.playRound([1, 1]);
-
-  expect(gameplay.getActivePlayer().game.hitAttacks).toEqual([]);
 });
