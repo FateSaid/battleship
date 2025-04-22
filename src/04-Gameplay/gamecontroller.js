@@ -52,20 +52,13 @@ export function GameController(player1, player2) {
     }
 
     if (getActivePlayer().name === "Computer") {
-      let missedArray = getOpponent().game.missedAttacks;
-      let hitArray = getOpponent().game.hitAttacks;
-      let combinedArray = missedArray.concat(hitArray);
-      let [a, b] = randomCoordinates(combinedArray);
+      let [a, b] = computerMove(getOpponent());
       playRound([a, b]);
     }
   }
 
   function checkWinner(opponent) {
     return opponent.game.totalShipSunk();
-  }
-
-  function printOppBoard(player) {
-    let opponent = player.game.getOpponent();
   }
 
   SetupShip(players[0], players[1]);
@@ -76,6 +69,14 @@ export function GameController(player1, player2) {
     playRound,
     getPlayers,
   };
+}
+
+function computerMove(opponent) {
+  let missedArray = opponent.game.missedAttacks;
+  let hitArray = opponent.game.hitAttacks;
+  let combinedArray = missedArray.concat(hitArray);
+  let [a, b] = randomCoordinates(combinedArray);
+  return [a, b];
 }
 
 function checkDuplicate(array, coordinate) {
