@@ -3,6 +3,7 @@ import {
   randomCoordinate,
   checkDuplicate,
 } from "./computer-move.js";
+import { GameController } from "./gamecontroller.js";
 
 describe("Generate computer coordinates", () => {
   test("Should return false if checkDuplicate has no duplicate", () => {
@@ -32,5 +33,25 @@ describe("Generate computer coordinates", () => {
     totalArray.pop();
 
     expect(randomCoordinate(totalArray)).toEqual([9, 9]);
+  });
+
+  test("Should hit adjacent space when there is a direct hit", () => {
+    let gameplay = GameController("User", "Chance");
+
+    //player 1 hitAttacks [5,5],[4,5] // missAttacks [4,6],[3,5]
+
+    gameplay.playRound([0, 0]);
+    gameplay.playRound([4, 5]);
+    gameplay.playRound([5, 3]);
+    gameplay.playRound([4, 6]);
+    gameplay.playRound([6, 3]);
+    gameplay.playRound([8, 9]);
+    gameplay.playRound([3, 5]);
+    gameplay.playRound([4, 7]);
+    gameplay.playRound([5, 5]);
+
+    let firstPlayer = gameplay.getOpponent();
+
+    expect(calculateNextTarget(firstPlayer)).toEqual([4, 4]);
   });
 });
