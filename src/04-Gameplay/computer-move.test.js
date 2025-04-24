@@ -3,6 +3,8 @@ import {
   checkHitAttacks,
   checkDuplicate,
   potentialMove,
+  filterSameShipHit,
+  getShipOrientation,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
 
@@ -57,6 +59,45 @@ describe("Generate computer coordinates", () => {
 
     expect(checkHitAttacks(round.getActivePlayer())).toEqual([]);
   });
+});
+
+describe("Calculate Next Target", () => {
+  test("Computer potential move", () => {
+    //Artest [[3,6],[3,7],[3,8]]
+    //Ron [[4,5],[6,6]]
+    let gameplay = GameController("Ron", "Artest");
+
+    gameplay.playRound([5, 0]);
+    gameplay.playRound([4, 5]);
+    gameplay.playRound([6, 0]);
+
+    expect([
+      [4, 0],
+      [7, 0],
+    ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
+  });
+
+  test("Should filter if adjacent hits are same ship", () => {
+    let gameplay = GameController("Sam", "Hill");
+
+    gameplay.playRound([0, 4]);
+    gameplay.playRound([0, 0]);
+    gameplay.playRound([5, 7]);
+    gameplay.playRound([5, 5]);
+    gameplay.playRound([0, 5]);
+
+    expect(filterSameShipHit(gameplay.getActivePlayer())).toEqual([
+      [0, 4],
+      [0, 5],
+    ]);
+
+    gameplay.playRound([0, 1]);
+
+    expect(filterSameShipHit(gameplay.getActivePlayer())).toEqual([
+      [0, 0],
+      [0, 1],
+    ]);
+  });
 
   test("Should hit adjacent space when there is a direct hit", () => {
     let gameplay = GameController("User", "Chance");
@@ -77,29 +118,22 @@ describe("Generate computer coordinates", () => {
 
     expect(calculateNextTarget(firstPlayer)).toEqual([4, 4]);
   });
-});
 
-test("Computer potential move", () => {
-  let gameplay = GameController("Ron", "Artest");
+  test("Identify if ship is horizontal or vertical", () => {
+    let gameplay = GameController("Tom", "Mafeel");
 
-  gameplay.playRound([3, 6]);
-  gameplay.playRound([4, 5]);
-  gameplay.playRound([3, 7]);
+    gameplay.playRound([5, 7]);
+    gameplay.playRound([5, 5]);
+    gameplay.playRound([6, 7]);
 
-  expect([
-    [3, 8],
-    [2, 7],
-    [4, 7],
-  ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
+    expect(getShipOrientation(gameplay.getActivePlayer().game.hitAttacks)).toBe(
+      "Vertical"
+    );
 
-  gameplay.playRound([6, 6]);
-  gameplay.playRound([3, 8]);
+    gameplay.playRound([5, 6]);
 
-  console.log(potentialMove(gameplay.getActivePlayer()));
-
-  expect([
-    [3, 9],
-    [4, 8],
-    [2, 8],
-  ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
+    expect(getShipOrientation(gameplay.getActivePlayer().game.hitAttacks)).toBe(
+      "Horizontal"
+    );
+  });
 });

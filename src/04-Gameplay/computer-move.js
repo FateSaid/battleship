@@ -21,7 +21,7 @@ function checkDuplicate(array, coordinate) {
   return true;
 }
 
-function calculateNextTarget(opponent) {
+function calculateNextTarget(opp) {
   //here function for producing potential moves
 
   potentialMove(opponent);
@@ -30,6 +30,7 @@ function calculateNextTarget(opponent) {
 function potentialMove(opp) {
   let board = opp.game.getBoard();
   let hitArray = opp.game.hitAttacks;
+
   let shipsNotSunk = checkHitAttacks(opp);
 
   for (let i = 0; i < shipsNotSunk.length; i++) {
@@ -69,6 +70,13 @@ function potentialMove(opp) {
   }
 }
 
+function plusX(array, combinedArray) {
+  let [x, y] = array;
+  if (checkDuplicate(combinedArray, [x, y])) {
+    return [x + 1, y];
+  }
+}
+
 function checkHitAttacks(opp) {
   let hitArray = opp.game.hitAttacks;
   let board = opp.game.getBoard();
@@ -79,6 +87,33 @@ function checkHitAttacks(opp) {
       return el;
     }
   });
+}
+
+function filterSameShipHit(opponent) {
+  let hitArray = opponent.game.hitAttacks;
+  let board = opponent.game.getBoard();
+  let [x, y] = hitArray[0];
+  let result = [[x, y]];
+
+  for (let i = 1; i < hitArray.length; i++) {
+    let [a, b] = hitArray[i];
+    if (board[x][y] === board[a][b]) {
+      result.push([a, b]);
+    }
+  }
+  return result;
+}
+
+function getShipOrientation(array) {
+  let [x, y] = array[0];
+  for (let i = 1; i < array.length; i++) {
+    let [a, b] = array[i];
+    if (x === a) {
+      return "Horizontal";
+    } else if (y === b) {
+      return "Vertical";
+    }
+  }
 }
 
 function randomCoordinates(array) {
@@ -95,8 +130,10 @@ function randomCoordinates(array) {
 
 export {
   randomCoordinates,
-  checkHitAttacks,
   checkDuplicate,
   computerMove,
   potentialMove,
+  filterSameShipHit,
+  checkHitAttacks,
+  getShipOrientation,
 };
