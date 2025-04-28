@@ -24,17 +24,18 @@ function checkDuplicate(array, coordinate) {
 function calculateNextTarget(opponent) {
   //here function for producing potential moves
 
-  if (filterSameShipHit(opponent).length > 0) {
+  if (filterSameShipHit(opponent).length > 1) {
     return predictShipLocation(opponent);
   }
 
-  potentialMove(opponent);
+  return potentialMove(opponent);
 }
 
 function predictShipLocation(opp) {
   let missedArray = opp.game.missedAttacks;
   let hitArray = opp.game.hitAttacks;
   let combinedArray = missedArray.concat(hitArray);
+
   let sameShipCoordinate = filterSameShipHit(opp);
   let planeAlignment = getShipOrientation(sameShipCoordinate);
 
@@ -120,6 +121,11 @@ function checkHitAttacks(opp) {
 function filterSameShipHit(opponent) {
   let hitArray = opponent.game.hitAttacks;
   let board = opponent.game.getBoard();
+
+  if (hitArray[0] === undefined) {
+    return 0;
+  }
+
   let [x, y] = hitArray[0];
   let result = [[x, y]];
 
@@ -165,4 +171,5 @@ export {
   checkHitAttacks,
   getShipOrientation,
   predictShipLocation,
+  calculateNextTarget,
 };
