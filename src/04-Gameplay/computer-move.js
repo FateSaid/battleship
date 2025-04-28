@@ -21,60 +21,88 @@ function checkDuplicate(array, coordinate) {
   return true;
 }
 
-function calculateNextTarget(opp) {
+function calculateNextTarget(opponent) {
   //here function for producing potential moves
+
+  if (filterSameShipHit(opponent).length > 0) {
+    return predictShipLocation(opponent);
+  }
 
   potentialMove(opponent);
 }
 
-function potentialMove(opp) {
-  let board = opp.game.getBoard();
+function predictShipLocation(opp) {
+  let missedArray = opp.game.missedAttacks;
   let hitArray = opp.game.hitAttacks;
+  let combinedArray = missedArray.concat(hitArray);
+  let sameShipCoordinate = filterSameShipHit(opp);
+  let planeAlignment = getShipOrientation(sameShipCoordinate);
+
+  for (let i = 0; i < sameShipCoordinate.length; i++) {
+    let [x, y] = sameShipCoordinate[i];
+    if (planeAlignment === "Vertical") {
+      if (x + 1 <= 9 && checkDuplicate(combinedArray, [x + 1, y])) {
+        return plusX(x, y);
+      }
+
+      if (x - 1 >= 0 && checkDuplicate(combinedArray, [x - 1, y])) {
+        return minusX(x, y);
+      }
+    }
+
+    if (planeAlignment === "Horizontal") {
+      if (y + 1 <= 9 && checkDuplicate(combinedArray, [x, y + 1])) {
+        return plusY(x, y);
+      }
+      if (y - 1 >= 0 && checkDuplicate(combinedArray, [x, y - 1])) {
+        return minusY(x, y);
+      }
+    }
+  }
+}
+
+function potentialMove(opp) {
+  let missedArray = opp.game.missedAttacks;
+  let hitArray = opp.game.hitAttacks;
+  let combinedArray = missedArray.concat(hitArray);
 
   let shipsNotSunk = checkHitAttacks(opp);
 
   for (let i = 0; i < shipsNotSunk.length; i++) {
     let [x, y] = shipsNotSunk[i];
 
-    if (
-      x + 1 <= 9 &&
-      !Array.isArray(board[x + 1][y]) &&
-      checkDuplicate(hitArray, [x + 1, y])
-    ) {
-      return [x + 1, y];
+    if (x + 1 <= 9 && checkDuplicate(combinedArray, [x + 1, y])) {
+      return plusX(x, y);
     }
 
-    if (
-      x - 1 <= 9 &&
-      !Array.isArray(board[x - 1][y]) &&
-      checkDuplicate(hitArray, [x - 1, y])
-    ) {
-      return [x - 1, y];
+    if (x - 1 >= 0 && checkDuplicate(combinedArray, [x - 1, y])) {
+      return minusX(x, y);
     }
 
-    if (
-      y + 1 <= 9 &&
-      !Array.isArray(board[x][y + 1]) &&
-      checkDuplicate(hitArray, [x, y + 1])
-    ) {
-      return [x, y + 1];
+    if (y + 1 <= 9 && checkDuplicate(combinedArray, [x, y + 1])) {
+      return plusY(x, y);
     }
 
-    if (
-      y - 1 <= 9 &&
-      !Array.isArray(board[x][y - 1]) &&
-      checkDuplicate(hitArray, [x, y - 1])
-    ) {
-      return [x, y - 1];
+    if (y - 1 >= 0 && checkDuplicate(combinedArray, [x, y - 1])) {
+      return minusY(x, y);
     }
   }
 }
 
-function plusX(array, combinedArray) {
-  let [x, y] = array;
-  if (checkDuplicate(combinedArray, [x, y])) {
-    return [x + 1, y];
-  }
+function plusX(x, y) {
+  return [x + 1, y];
+}
+
+function minusX(x, y) {
+  return [x - 1, y];
+}
+
+function plusY(x, y) {
+  return [x, y + 1];
+}
+
+function minusY(x, y) {
+  return [x, y - 1];
 }
 
 function checkHitAttacks(opp) {
@@ -136,4 +164,5 @@ export {
   filterSameShipHit,
   checkHitAttacks,
   getShipOrientation,
+  predictShipLocation,
 };

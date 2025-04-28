@@ -5,6 +5,7 @@ import {
   potentialMove,
   filterSameShipHit,
   getShipOrientation,
+  predictShipLocation,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
 
@@ -135,5 +136,18 @@ describe("Calculate Next Target", () => {
     expect(getShipOrientation(gameplay.getActivePlayer().game.hitAttacks)).toBe(
       "Horizontal"
     );
+  });
+
+  test("predictShipLocation should return ship coordinate", () => {
+    let gameplay = GameController("Sam", "Hill");
+
+    gameplay.playRound([6, 0]);
+    gameplay.playRound([0, 2]);
+    gameplay.playRound([7, 0]);
+
+    expect([
+      [5, 0],
+      [8, 0],
+    ]).toContainEqual(predictShipLocation(gameplay.getActivePlayer()));
   });
 });
