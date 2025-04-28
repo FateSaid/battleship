@@ -6,6 +6,7 @@ import {
   filterSameShipHit,
   getShipOrientation,
   predictShipLocation,
+  calculateNextTarget,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
 
@@ -103,7 +104,7 @@ describe("Calculate Next Target", () => {
   test("Should hit adjacent space when there is a direct hit", () => {
     let gameplay = GameController("User", "Chance");
 
-    //player 1 hitAttacks [5,5],[4,5] // missAttacks [4,6],[3,5]
+    //player 1 hitAttacks [5,5],[4,5],[8,9] // missAttacks [4,6],[4,7]
 
     gameplay.playRound([0, 0]);
     gameplay.playRound([4, 5]);
@@ -112,12 +113,12 @@ describe("Calculate Next Target", () => {
     gameplay.playRound([6, 3]);
     gameplay.playRound([8, 9]);
     gameplay.playRound([3, 5]);
-    gameplay.playRound([4, 7]);
+    gameplay.playRound([4, 4]);
     gameplay.playRound([5, 5]);
 
-    let firstPlayer = gameplay.getOpponent();
+    console.log(calculateNextTarget(gameplay.getOpponent()));
 
-    expect(calculateNextTarget(firstPlayer)).toEqual([4, 4]);
+    expect(calculateNextTarget(gameplay.getOpponent())).toEqual([4, 3]);
   });
 
   test("Identify if ship is horizontal or vertical", () => {
