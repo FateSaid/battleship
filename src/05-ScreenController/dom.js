@@ -9,8 +9,8 @@ function playerTwoBoard(div) {
 }
 
 function resultOutput(text) {
-  const result = document.querySelector(".result");
-  result.textContent = text;
+  const dialogMessage = document.querySelector(".winnerMessage");
+  dialogMessage.textContent = text;
 }
 
 function toggleDisableBoard() {
@@ -47,4 +47,15 @@ function disableBoard(player, opponent) {
   opponent.classList.remove("disable");
 }
 
-export { playerOneBoard, playerTwoBoard, resultOutput, toggleDisableBoard };
+function activateDialogBox() {
+  const dialogBox = document.querySelector(".winner");
+  dialogBox.showModal();
+}
+
+export {
+  playerOneBoard,
+  playerTwoBoard,
+  resultOutput,
+  toggleDisableBoard,
+  activateDialogBox,
+};

@@ -1,7 +1,7 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { SetupShip } from "./setup-ship.js";
-import { computerMove, checkDuplicate } from "./computer-move.js";
+import { calculateNextTarget, checkDuplicate } from "./computer-move.js";
 
 export function GameController(player1, player2) {
   let players;
@@ -52,7 +52,7 @@ export function GameController(player1, player2) {
     }
 
     if (getActivePlayer().name === "Computer") {
-      let [a, b] = computerMove(getOpponent());
+      let [a, b] = calculateNextTarget(getOpponent());
       playRound([a, b]);
     }
   }

@@ -1,14 +1,3 @@
-function computerMove(opponent) {
-  let missedArray = opponent.game.missedAttacks;
-  let hitArray = opponent.game.hitAttacks;
-  if (checkHitAttacks(opponent).length > 0) {
-    calculateNextTarget(opponent);
-  }
-  let combinedArray = missedArray.concat(hitArray);
-  let [a, b] = randomCoordinates(combinedArray);
-  return [a, b];
-}
-
 function checkDuplicate(array, coordinate) {
   let stringArray = array.map(JSON.stringify);
   let stringCoordinate = JSON.stringify(coordinate);
@@ -24,11 +13,20 @@ function checkDuplicate(array, coordinate) {
 function calculateNextTarget(opponent) {
   //here function for producing potential moves
 
-  if (filterSameShipHit(opponent).length > 1) {
+  let missedArray = opponent.game.missedAttacks;
+  let hitArray = opponent.game.hitAttacks;
+  let combinedArray = missedArray.concat(hitArray);
+  let sameShipCoordinate = filterSameShipHit(opponent);
+
+  if (sameShipCoordinate.length > 1) {
     return predictShipLocation(opponent);
   }
 
-  return potentialMove(opponent);
+  if (sameShipCoordinate.length === 1) {
+    return potentialMove(opponent);
+  }
+
+  return randomCoordinates(combinedArray);
 }
 
 function predictShipLocation(opp) {
@@ -119,7 +117,8 @@ function checkHitAttacks(opp) {
 }
 
 function filterSameShipHit(opponent) {
-  let hitArray = opponent.game.hitAttacks;
+  let hitArray = checkHitAttacks(opponent);
+
   let board = opponent.game.getBoard();
 
   if (hitArray[0] === undefined) {
@@ -165,7 +164,6 @@ function randomCoordinates(array) {
 export {
   randomCoordinates,
   checkDuplicate,
-  computerMove,
   potentialMove,
   filterSameShipHit,
   checkHitAttacks,

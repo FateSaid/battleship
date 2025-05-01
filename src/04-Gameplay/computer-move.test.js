@@ -52,14 +52,26 @@ describe("Generate computer coordinates", () => {
 
   test("Should check hitAttack array for unsunk ships", () => {
     let round = GameController("Sam", "Cowell");
+
+    expect(checkHitAttacks(round.getActivePlayer())).toEqual([]);
+
     round.playRound([0, 9]);
-
-    expect(checkHitAttacks(round.getActivePlayer())).toContainEqual([0, 9]);
-
     round.playRound([3, 6]);
     round.playRound([1, 9]);
 
     expect(checkHitAttacks(round.getActivePlayer())).toEqual([]);
+  });
+
+  test("CalculateNextTarget function should return first computer move", () => {
+    let gameplay = GameController("Sam", "Collins");
+
+    expect(calculateNextTarget(gameplay.getActivePlayer())).toBeDefined();
+
+    gameplay.playRound([0, 9]);
+    gameplay.playRound([2, 4]);
+    gameplay.playRound([1, 9]);
+
+    expect(calculateNextTarget(gameplay.getOpponent())).toBeDefined();
   });
 });
 
@@ -115,8 +127,6 @@ describe("Calculate Next Target", () => {
     gameplay.playRound([3, 5]);
     gameplay.playRound([4, 4]);
     gameplay.playRound([5, 5]);
-
-    console.log(calculateNextTarget(gameplay.getOpponent()));
 
     expect(calculateNextTarget(gameplay.getOpponent())).toEqual([4, 3]);
   });
