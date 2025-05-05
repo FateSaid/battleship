@@ -9,6 +9,7 @@ import {
   calculateNextTarget,
 } from "./computer-move.js";
 import { GameController } from "./gamecontroller.js";
+import { SetupShip } from "./setup-ship.js";
 
 describe("Generate computer coordinates", () => {
   test("Should return false if checkDuplicate has no duplicate", () => {
@@ -52,6 +53,8 @@ describe("Generate computer coordinates", () => {
 
   test("Should check hitAttack array for unsunk ships", () => {
     let round = GameController("Sam", "Cowell");
+    let [play1, play2] = round.getPlayers();
+    SetupShip(play1, play2);
 
     expect(checkHitAttacks(round.getActivePlayer())).toEqual([]);
 
@@ -64,6 +67,8 @@ describe("Generate computer coordinates", () => {
 
   test("CalculateNextTarget function should return first computer move", () => {
     let gameplay = GameController("Sam", "Collins");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     expect(calculateNextTarget(gameplay.getActivePlayer())).toBeDefined();
 
@@ -80,6 +85,8 @@ describe("Calculate Next Target", () => {
     //Artest [[3,6],[3,7],[3,8]]
     //Ron [[4,5],[6,6]]
     let gameplay = GameController("Ron", "Artest");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     gameplay.playRound([5, 0]);
     gameplay.playRound([4, 5]);
@@ -93,6 +100,8 @@ describe("Calculate Next Target", () => {
 
   test("Should filter if adjacent hits are same ship", () => {
     let gameplay = GameController("Sam", "Hill");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     gameplay.playRound([0, 4]);
     gameplay.playRound([0, 0]);
@@ -115,6 +124,8 @@ describe("Calculate Next Target", () => {
 
   test("Should hit adjacent space when there is a direct hit", () => {
     let gameplay = GameController("User", "Chance");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     //player 1 hitAttacks [5,5],[4,5],[8,9] // missAttacks [4,6],[4,7]
 
@@ -133,6 +144,8 @@ describe("Calculate Next Target", () => {
 
   test("Identify if ship is horizontal or vertical", () => {
     let gameplay = GameController("Tom", "Mafeel");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     gameplay.playRound([5, 7]);
     gameplay.playRound([5, 5]);
@@ -151,6 +164,8 @@ describe("Calculate Next Target", () => {
 
   test("predictShipLocation should return ship coordinate", () => {
     let gameplay = GameController("Sam", "Hill");
+    let [play1, play2] = gameplay.getPlayers();
+    SetupShip(play1, play2);
 
     gameplay.playRound([6, 0]);
     gameplay.playRound([0, 2]);

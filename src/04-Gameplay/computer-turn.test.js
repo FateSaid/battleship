@@ -1,8 +1,11 @@
 import { GameController } from "./gamecontroller.js";
 import { checkDuplicate } from "./computer-move.js";
+import { SetupShip } from "./setup-ship.js";
 
 describe("Testing Player action", () => {
   let gameplay = GameController("User", "Computer");
+  let [play1, play2] = gameplay.getPlayers();
+  SetupShip(play1, play2);
 
   test("Player 2 should be computer", () => {
     let players = gameplay.getPlayers();
@@ -24,6 +27,8 @@ describe("Testing Player action", () => {
 
 describe("Testing Computer action", () => {
   let gameplay = GameController("User", "Computer");
+  let [play1, play2] = gameplay.getPlayers();
+  SetupShip(play1, play2);
 
   test("Computer should attack random coordinate", () => {
     gameplay.playRound([0, 0]);

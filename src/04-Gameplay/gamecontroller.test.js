@@ -1,4 +1,5 @@
 import { GameController } from "./gamecontroller.js";
+import { SetupShip } from "./setup-ship.js";
 
 describe("Testing Gameplay", () => {
   let gameplay = GameController("User", "User 2");
@@ -13,6 +14,8 @@ describe("Testing Gameplay", () => {
 
 describe("Playround", () => {
   let gameplay = GameController("User", "User 2");
+  let [play1, play2] = gameplay.getPlayers();
+  SetupShip(play1, play2);
 
   it("User should attack Computer board and hit target", () => {
     gameplay.playRound([5, 0]);
@@ -29,6 +32,8 @@ describe("Playround", () => {
 
 describe("Calculate Winner", () => {
   let gameplay = GameController("User", "User 2");
+  let [play1, play2] = gameplay.getPlayers();
+  SetupShip(play1, play2);
   /* Player 1 
   [0, 0], [0, 4];
   [4, 3], [4, 5];
