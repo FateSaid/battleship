@@ -61,8 +61,6 @@ export function GameController(player1, player2) {
     return opponent.game.totalShipSunk();
   }
 
-  SetupShip(players[0], players[1]);
-
   return {
     getActivePlayer,
     getOpponent,

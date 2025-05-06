@@ -1,10 +1,5 @@
 import { GameController } from "../04-Gameplay/gamecontroller.js";
-import {
-  playerOneBoard,
-  playerTwoBoard,
-  resultOutput,
-  activateDialogBox,
-} from "./dom.js";
+import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
 
 export function ScreenController() {
   const gameplay = GameController("User");
@@ -78,7 +73,6 @@ function eventHandler(x, y, gameplay, cell) {
   cell.addEventListener("click", () => {
     if (typeof gameplay.playRound([x, y]) === "string") {
       resultOutput(`Winner is ${gameplay.getActivePlayer().name}!`);
-      activateDialogBox();
     } else {
       playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
     }

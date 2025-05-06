@@ -47,15 +47,4 @@ function disableBoard(player, opponent) {
   opponent.classList.remove("disable");
 }
 
-function activateDialogBox() {
-  const dialogBox = document.querySelector(".winner");
-  dialogBox.showModal();
-}
-
-export {
-  playerOneBoard,
-  playerTwoBoard,
-  resultOutput,
-  toggleDisableBoard,
-  activateDialogBox,
-};
+export { playerOneBoard, playerTwoBoard, resultOutput, toggleDisableBoard };
