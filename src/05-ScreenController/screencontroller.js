@@ -1,8 +1,15 @@
 import { GameController } from "../04-Gameplay/gamecontroller.js";
 import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
 
-export function ScreenController() {
-  const gameplay = GameController("User");
+export function ScreenController(player1, player2) {
+  let gameplay;
+  if (typeof player1 != undefined && typeof player2 != undefined) {
+    gameplay = GameController(player1, player2);
+  } else if (typeof player2 === undefined && typeof player1 != undefined) {
+    gameplay = GameController(player1);
+  } else {
+    throw new Error("players are undefined");
+  }
 
   playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
   updateScreen(gameplay);

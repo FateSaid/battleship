@@ -1,4 +1,4 @@
 import "./style.css";
-import { ScreenController } from "./05-ScreenController/screencontroller.js";
+import { homePage } from "./06-Home-Page/home.js";
 
-ScreenController();
+homePage();
