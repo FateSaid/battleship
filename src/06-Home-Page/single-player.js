@@ -1,5 +1,5 @@
 import { ScreenController } from "../05-ScreenController/screencontroller";
-import { renderBoard } from "../05-ScreenController/dom";
+import { renderBoard, shipCoordinateBox } from "../05-ScreenController/dom";
 
 export function singlePlayerInput() {
   const playerOption = document.querySelector(".player-option");
@@ -36,6 +36,7 @@ function singlePlayerEvent(input, btn, theForm) {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     renderBoard(input.value, "Computer");
+    shipCoordinateBox();
     ScreenController(input.value);
     theForm.remove();
   });

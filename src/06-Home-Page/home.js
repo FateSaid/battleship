@@ -1,4 +1,4 @@
-import { homeEvents } from "./home-event.js";
+import { homeEvents, restart } from "./home-event.js";
 
 export function homePage() {
   const content = document.querySelector(".content");
@@ -27,4 +27,6 @@ export function homePage() {
   content.appendChild(playerOption);
 
   homeEvents(playerOne);
+
+  restart();
 }
