@@ -153,6 +153,7 @@ function getShipCoordinate(ship) {
 
   const btn = document.createElement("button");
   btn.classList.add("input-coordinate-button");
+  btn.setAttribute("id", `${ship.toLowerCase().replace(" ", "-")}-btn`);
   btn.textContent = "Submit";
 
   divInput.appendChild(xLabel);
