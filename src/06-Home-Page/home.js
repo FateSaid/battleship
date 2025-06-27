@@ -26,7 +26,7 @@ export function homePage() {
   content.appendChild(title);
   content.appendChild(playerOption);
 
-  homeEvents(playerOne);
+  homeEvents(playerOne, playerTwo);
 
   restart();
 }

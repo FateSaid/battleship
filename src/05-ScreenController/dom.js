@@ -133,39 +133,68 @@ function getShipCoordinate(ship) {
   const divInput = document.createElement("div");
   divInput.classList.add("input-box");
 
-  const xLabel = document.createElement("label");
-  xLabel.setAttribute("for", `coordinate-x-${ship}`);
-  xLabel.textContent = "X";
-  const xInput = document.createElement("input");
-  xInput.setAttribute("type", "number");
-  xInput.setAttribute("id", `coordinate-x-${ship}`);
-  xInput.setAttribute("min", 0);
-  xInput.setAttribute("max", 9);
+  const inputCoordinate = document.createElement("div");
+  inputCoordinate.classList.add("coordinate-input");
 
-  const yLabel = document.createElement("label");
-  yLabel.setAttribute("for", `coordinate-y-${ship}`);
-  yLabel.textContent = "Y";
-  const yInput = document.createElement("input");
-  yInput.setAttribute("type", "number");
-  yInput.setAttribute("id", `coordinate-y-${ship}`);
-  yInput.setAttribute("min", 0);
-  yInput.setAttribute("max", 9);
+  generateInput(inputCoordinate, "start", ship, "x");
+  generateInput(inputCoordinate, "start", ship, "y");
+  generateInput(inputCoordinate, "end", ship, "x");
+  generateInput(inputCoordinate, "end", ship, "y");
 
   const btn = document.createElement("button");
   btn.classList.add("input-coordinate-button");
   btn.setAttribute("id", `${ship.toLowerCase().replace(" ", "-")}-btn`);
   btn.textContent = "Submit";
 
-  divInput.appendChild(xLabel);
-  divInput.appendChild(xInput);
-  divInput.appendChild(yLabel);
-  divInput.appendChild(yInput);
+  divInput.appendChild(inputCoordinate);
+  divInput.appendChild(inputCoordinate);
   divInput.appendChild(btn);
 
   divCoordinate.appendChild(divTitle);
   divCoordinate.appendChild(divInput);
 
   coordinateBox.appendChild(divCoordinate);
+}
+
+function generateInput(div, status, ship, axis) {
+  const inputDiv = document.createElement("div");
+  inputDiv.classList.add(`input-box-${status}-${axis}`);
+  inputDiv.classList.add("input-item");
+
+  const label = document.createElement("label");
+  label.setAttribute(
+    "for",
+    `${status}-${axis}-${ship.toLowerCase().replace(" ", "-")}`
+  );
+  label.textContent = `${status} ${axis.toUpperCase()}`;
+
+  const input = document.createElement("input");
+  input.setAttribute(
+    "id",
+    `${status}-${axis}-${ship.toLowerCase().replace(" ", "-")}`
+  );
+  input.setAttribute("type", "number");
+  input.setAttribute("min", 0);
+  input.setAttribute("max", 9);
+
+  inputDiv.appendChild(label);
+  inputDiv.appendChild(input);
+
+  div.appendChild(inputDiv);
+}
+
+function getPlayerDomBoard(gameplay) {
+  let player = gameplay.getActivePlayer().name;
+
+  const playerTitles = document.querySelectorAll(".player-title");
+
+  for (let i = 0; i < playerTitles.length; i++) {
+    if (playerTitles[i].textContent === player) {
+      return playerTitles[i].parentElement.lastElementChild;
+    }
+  }
+
+  throw new Error("Player board not found in getPlayerDomBoard");
 }
 
 export {
@@ -177,4 +206,5 @@ export {
   playerTwo,
   renderBoard,
   shipCoordinateBox,
+  getPlayerDomBoard,
 };

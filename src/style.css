@@ -116,7 +116,7 @@ header {
 
 /* Single Player Menu*/
 
-.single-player-form {
+.player-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,16 +124,25 @@ header {
   gap: 10px;
 }
 
-.single-player-form label {
+.player-input-selection label {
   font-family: "stancil", system-ui, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 4rem;
 }
 
-.player-one-div {
+.player-one-div,
+.player-two-div {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Multi player menu */
+
+.player-input-selection {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .board {
@@ -147,11 +156,12 @@ header {
 
 #coordinate-box {
   height: 618px;
-  width: 300px;
+  width: 350px;
   position: absolute;
   font-family: "Courier New", Courier, monospace;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 #coordinate-box > input {
@@ -170,6 +180,19 @@ header {
   padding: 10px;
   display: flex;
   justify-content: space-around;
+}
+
+.coordinate-input {
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  grid-template-rows: repeat(2, 40px);
+  align-items: center;
+  justify-content: end;
+}
+
+.input-item {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .player-board {
