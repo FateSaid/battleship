@@ -1,4 +1,4 @@
-import { GameController } from "../04-Gameplay/gamecontroller.js";
+import { getPlayerDomBoard } from "./dom.js";
 import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
 
 function ScreenController(gameplay) {
@@ -65,6 +65,7 @@ function createDivCell(domBoard, player, gameplay, status) {
 }
 
 function displayBoard(domBoard, gameplay) {
+  clearPlayerBoard(gameplay);
   let board = gameplay.getActivePlayer().game.getBoard();
 
   for (let i = 0; i < board.length; i++) {
@@ -83,10 +84,8 @@ function displayBoard(domBoard, gameplay) {
       row.appendChild(cell);
       eventHandler(i, j, gameplay, cell);
     }
-    domBoard(row);
+    domBoard.appendChild(row);
   }
-
-  console.log(board);
 }
 
 function displayMissedAttacks(player, x, y) {
@@ -118,6 +117,12 @@ function clearBoard() {
   playerBoard.forEach((board) => {
     board.textContent = "";
   });
+}
+
+function clearPlayerBoard(gameplay) {
+  let board = getPlayerDomBoard(gameplay);
+
+  board.textContent = "";
 }
 
 export { ScreenController, displayBoard };

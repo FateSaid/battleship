@@ -28,76 +28,78 @@ function restart() {
 }
 
 function shipCoordinateBtnEvent(gameplay) {
-  console.log(gameplay);
-  // const carrierBtn = document.getElementById("carrier-btn");
-  // const battleshipBtn = document.getElementById("battleship-btn");
-  // const destroyerBtn = document.getElementById("destroyer-btn");
-  // const submarineBtn = document.getElementById("submarine-btn");
-  // const patrolBoatBtn = document.getElementById("patrol-boat-btn");
-  // let domBoard = getPlayerDomBoard(gameplay);
+  const carrierBtn = document.getElementById("carrier-btn");
+  const battleshipBtn = document.getElementById("battleship-btn");
+  const destroyerBtn = document.getElementById("destroyer-btn");
+  const submarineBtn = document.getElementById("submarine-btn");
+  const patrolBoatBtn = document.getElementById("patrol-boat-btn");
+  let domBoard = getPlayerDomBoard(gameplay);
 
-  // carrierBtn.addEventListener("click", () => {
-  //   let currentPlayer = gameplay.getActivePlayer();
-  //   let carrierCoordinate = getShipInput("carrier");
+  carrierBtn.addEventListener("click", () => {
+    let currentPlayer = gameplay.getActivePlayer();
+    let carrierCoordinate = getShipInput("carrier");
 
-  //   currentPlayer.game.placeShip(
-  //     "carrier",
-  //     5,
-  //     carrierCoordinate[0],
-  //     carrierCoordinate[1]
-  //   );
-  //   displayBoard;
-  // });
+    currentPlayer.game.placeShip(
+      "carrier",
+      5,
+      carrierCoordinate[0],
+      carrierCoordinate[1]
+    );
+    displayBoard(domBoard, gameplay);
+  });
 
-  // battleshipBtn.addEventListener("click", () => {
-  //   let currentPlayer = gameplay.getActivePlayer();
-  //   let battleshipCoordinate = getShipInput("battleship");
+  battleshipBtn.addEventListener("click", () => {
+    let currentPlayer = gameplay.getActivePlayer();
+    let battleshipCoordinate = getShipInput("battleship");
 
-  //   currentPlayer.game.placeShip(
-  //     "carrier",
-  //     4,
-  //     battleshipCoordinate[0],
-  //     battleshipCoordinate[1]
-  //   );
+    currentPlayer.game.placeShip(
+      "carrier",
+      4,
+      battleshipCoordinate[0],
+      battleshipCoordinate[1]
+    );
 
-  //   displayBoard(domBoard, gameplay);
-  // });
+    displayBoard(domBoard, gameplay);
+  });
 
-  // destroyerBtn.addEventListener("click", () => {
-  //   let currentPlayer = gameplay.getActivePlayer();
-  //   let destroyerCoordinate = getShipInput("battleship");
+  destroyerBtn.addEventListener("click", () => {
+    let currentPlayer = gameplay.getActivePlayer();
+    let destroyerCoordinate = getShipInput("battleship");
 
-  //   currentPlayer.game.placeShip(
-  //     "carrier",
-  //     3,
-  //     destroyerCoordinate[0],
-  //     destroyerCoordinate[1]
-  //   );
-  // });
+    currentPlayer.game.placeShip(
+      "carrier",
+      3,
+      destroyerCoordinate[0],
+      destroyerCoordinate[1]
+    );
+    displayBoard(domBoard, gameplay);
+  });
 
-  // submarineBtn.addEventListener("click", () => {
-  //   let currentPlayer = gameplay().getActivePlayer();
-  //   let submarineCoordinate = getShipInput("battleship");
+  submarineBtn.addEventListener("click", () => {
+    let currentPlayer = gameplay().getActivePlayer();
+    let submarineCoordinate = getShipInput("battleship");
 
-  //   currentPlayer.game.placeShip(
-  //     "carrier",
-  //     3,
-  //     submarineCoordinate[0],
-  //     submarineCoordinate[1]
-  //   );
-  // });
+    currentPlayer.game.placeShip(
+      "carrier",
+      3,
+      submarineCoordinate[0],
+      submarineCoordinate[1]
+    );
+    displayBoard(domBoard, gameplay);
+  });
 
-  // patrolBoatBtn.addEventListener("click", () => {
-  //   let currentPlayer = gameplay.getActivePlayer();
-  //   let patrolBoatCoordinate = getShipInput("battleship");
+  patrolBoatBtn.addEventListener("click", () => {
+    let currentPlayer = gameplay.getActivePlayer();
+    let patrolBoatCoordinate = getShipInput("battleship");
 
-  //   currentPlayer.game.placeShip(
-  //     "carrier",
-  //     2,
-  //     patrolBoatCoordinate[0],
-  //     patrolBoatCoordinate[1]
-  //   );
-  // });
+    currentPlayer.game.placeShip(
+      "carrier",
+      2,
+      patrolBoatCoordinate[0],
+      patrolBoatCoordinate[1]
+    );
+    displayBoard(domBoard, gameplay);
+  });
 }
 
 function getShipInput(ship) {
@@ -124,10 +126,10 @@ function getShipInput(ship) {
 function getPlayerNameInput(form, btn) {
   const playerOneNameInput = document.getElementById("player-one-name");
   const playerTwoNameInput = document.getElementById("player-two-name");
+  let gameplay;
   btn.addEventListener("click", (e) => {
     e.preventDefault();
 
-    let gameplay;
     if (form.checkValidity()) {
       if (playerTwoNameInput === null) {
         renderBoard(playerOneNameInput.value, "Computer");
@@ -147,6 +149,7 @@ function getPlayerNameInput(form, btn) {
       form.remove();
     }
     shipCoordinateBox();
+    shipCoordinateBtnEvent(gameplay);
   });
 }
 
