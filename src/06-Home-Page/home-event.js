@@ -3,12 +3,9 @@ import {
   ScreenController,
   displayBoard,
 } from "../05-ScreenController/screencontroller";
-import {
-  renderBoard,
-  shipCoordinateBox,
-  getPlayerDomBoard,
-} from "../05-ScreenController/dom";
+import { renderBoard, getPlayerDomBoard } from "../05-ScreenController/dom";
 import { GameController } from "../04-Gameplay/gamecontroller.js";
+import { createShipButtonDiv } from "../05-ScreenController/dom";
 
 function homeEvents(playerOneButton, playerTwoButton) {
   playerOneButton.addEventListener("click", () => {
@@ -147,9 +144,8 @@ function getPlayerNameInput(form, btn) {
       }
 
       form.remove();
+      createShipButtonDiv();
     }
-    shipCoordinateBox();
-    shipCoordinateBtnEvent(gameplay);
   });
 }
 

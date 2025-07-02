@@ -118,17 +118,19 @@ function getPlayerDomBoard(gameplay) {
   throw new Error("Player board not found in getPlayerDomBoard");
 }
 
-function createShipButtonDiv(gameplay) {
+function createShipButtonDiv() {
   const board = document.querySelector(".board");
+  const shipPlacement = board.nextElementSibling;
 
   const shipInputDiv = document.createElement("div");
   shipInputDiv.classList.add("ship-input-div");
 
-  const playerDiv = board.firstElementChild;
+  const btn = document.createElement("button");
+  btn.setAttribute("id", "random-ship-generator-btn");
 
-  function checkPlayerTurn(gameplay) {
-    let playerName = gameplay.getActivePlayer().name;
-  }
+  shipInputDiv.appendChild(btn);
+
+  shipPlacement.appendChild(shipInputDiv);
 }
 
 export {
@@ -140,4 +142,5 @@ export {
   playerTwo,
   renderBoard,
   getPlayerDomBoard,
+  createShipButtonDiv,
 };
