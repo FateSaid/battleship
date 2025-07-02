@@ -104,85 +104,6 @@ function renderBoard(playerOneName, playerTwoName) {
   playerTwo(playerTwoName);
 }
 
-function shipCoordinateBox() {
-  const board = document.querySelector(".board");
-  const playerOneBoard = document.querySelector(".player-one");
-
-  const coordinateBox = document.createElement("div");
-  coordinateBox.setAttribute("id", "coordinate-box");
-
-  board.insertBefore(coordinateBox, playerOneBoard);
-
-  getShipCoordinate("Carrier");
-  getShipCoordinate("BattleShip");
-  getShipCoordinate("Destroyer");
-  getShipCoordinate("Submarine");
-  getShipCoordinate("Patrol Boat");
-}
-
-function getShipCoordinate(ship) {
-  const coordinateBox = document.getElementById("coordinate-box");
-
-  const divCoordinate = document.createElement("div");
-  divCoordinate.classList.add("ship-input-coordinate");
-
-  const divTitle = document.createElement("div");
-  divTitle.classList.add("ship-title");
-  divTitle.textContent = `${ship}`;
-
-  const divInput = document.createElement("div");
-  divInput.classList.add("input-box");
-
-  const inputCoordinate = document.createElement("div");
-  inputCoordinate.classList.add("coordinate-input");
-
-  generateInput(inputCoordinate, "start", ship, "x");
-  generateInput(inputCoordinate, "start", ship, "y");
-  generateInput(inputCoordinate, "end", ship, "x");
-  generateInput(inputCoordinate, "end", ship, "y");
-
-  const btn = document.createElement("button");
-  btn.classList.add("input-coordinate-button");
-  btn.setAttribute("id", `${ship.toLowerCase().replace(" ", "-")}-btn`);
-  btn.textContent = "Submit";
-
-  divInput.appendChild(inputCoordinate);
-  divInput.appendChild(inputCoordinate);
-  divInput.appendChild(btn);
-
-  divCoordinate.appendChild(divTitle);
-  divCoordinate.appendChild(divInput);
-
-  coordinateBox.appendChild(divCoordinate);
-}
-
-function generateInput(div, status, ship, axis) {
-  const inputDiv = document.createElement("div");
-  inputDiv.classList.add(`input-box-${status}-${axis}`);
-  inputDiv.classList.add("input-item");
-
-  const label = document.createElement("label");
-  label.setAttribute(
-    "for",
-    `${status}-${axis}-${ship.toLowerCase().replace(" ", "-")}`
-  );
-  label.textContent = `${status} ${axis.toUpperCase()}`;
-
-  const input = document.createElement("input");
-  input.setAttribute(
-    "id",
-    `${status}-${axis}-${ship.toLowerCase().replace(" ", "-")}`
-  );
-  input.setAttribute("type", "number");
-  input.setAttribute("min", 0);
-  input.setAttribute("max", 9);
-
-  inputDiv.appendChild(label);
-  inputDiv.appendChild(input);
-
-  div.appendChild(inputDiv);
-}
-
 function getPlayerDomBoard(gameplay) {
   let player = gameplay.getActivePlayer().name;
 
@@ -197,6 +118,19 @@ function getPlayerDomBoard(gameplay) {
   throw new Error("Player board not found in getPlayerDomBoard");
 }
 
+function createShipButtonDiv(gameplay) {
+  const board = document.querySelector(".board");
+
+  const shipInputDiv = document.createElement("div");
+  shipInputDiv.classList.add("ship-input-div");
+
+  const playerDiv = board.firstElementChild;
+
+  function checkPlayerTurn(gameplay) {
+    let playerName = gameplay.getActivePlayer().name;
+  }
+}
+
 export {
   playerOneBoard,
   playerTwoBoard,
@@ -205,6 +139,5 @@ export {
   playerOne,
   playerTwo,
   renderBoard,
-  shipCoordinateBox,
   getPlayerDomBoard,
 };
