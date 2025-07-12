@@ -13,8 +13,8 @@ function checkDuplicate(array, coordinate) {
 function calculateNextTarget(opponent) {
   //here function for producing potential moves
 
-  let missedArray = opponent.game.missedAttacks;
-  let hitArray = opponent.game.hitAttacks;
+  let missedArray = opponent.game.getMissedAttacks();
+  let hitArray = opponent.game.getHitAttacks();
   let combinedArray = missedArray.concat(hitArray);
   let sameShipCoordinate = filterSameShipHit(opponent);
 
@@ -30,8 +30,8 @@ function calculateNextTarget(opponent) {
 }
 
 function predictShipLocation(opp) {
-  let missedArray = opp.game.missedAttacks;
-  let hitArray = opp.game.hitAttacks;
+  let missedArray = opp.game.getMissedAttacks();
+  let hitArray = opp.game.getHitAttacks();
   let combinedArray = missedArray.concat(hitArray);
 
   let sameShipCoordinate = filterSameShipHit(opp);
@@ -61,8 +61,8 @@ function predictShipLocation(opp) {
 }
 
 function potentialMove(opp) {
-  let missedArray = opp.game.missedAttacks;
-  let hitArray = opp.game.hitAttacks;
+  let missedArray = opp.game.getMissedAttacks();
+  let hitArray = opp.game.getHitAttacks();
   let combinedArray = missedArray.concat(hitArray);
 
   let shipsNotSunk = checkHitAttacks(opp);
@@ -105,7 +105,7 @@ function minusY(x, y) {
 }
 
 function checkHitAttacks(opp) {
-  let hitArray = opp.game.hitAttacks;
+  let hitArray = opp.game.getHitAttacks();
   let board = opp.game.getBoard();
 
   return hitArray.filter((el) => {

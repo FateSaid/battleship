@@ -1,19 +1,19 @@
 export function attack(
   coordinate,
   board,
-  missedAttacks,
+  getMissedAttacks,
   addShipsSunk,
-  hitAttacks
+  getHitAttacks
 ) {
   let [x, y] = coordinate;
 
   if (!Array.isArray(board[x][y])) {
     board[x][y].hit();
-    hitAttacks.push([x, y]);
+    getHitAttacks().push([x, y]);
     if (board[x][y].isSunk()) {
       addShipsSunk();
     }
   } else {
-    missedAttacks.push([x, y]);
+    getMissedAttacks().push([x, y]);
   }
 }

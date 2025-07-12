@@ -17,7 +17,7 @@ describe("Testing Player action", () => {
     gameplay.playRound([9, 9]);
     gameplay.playRound([0, 5]);
 
-    let opponentMiss = gameplay.getOpponent().game.missedAttacks;
+    let opponentMiss = gameplay.getOpponent().game.getMissedAttacks();
 
     expect(checkDuplicate(opponentMiss, [9, 9])).toBeFalsy();
 

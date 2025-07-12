@@ -120,17 +120,62 @@ function getPlayerDomBoard(gameplay) {
 
 function createShipButtonDiv() {
   const board = document.querySelector(".board");
-  const shipPlacement = board.nextElementSibling;
+  const firstElementBoard = document.querySelector(".player-two");
 
   const shipInputDiv = document.createElement("div");
   shipInputDiv.classList.add("ship-input-div");
 
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("ship-input-title");
+  titleDiv.textContent = "Press Button to Randomize Ship Coordinates";
+
   const btn = document.createElement("button");
   btn.setAttribute("id", "random-ship-generator-btn");
+  btn.textContent = "Click";
 
+  shipInputDiv.appendChild(titleDiv);
   shipInputDiv.appendChild(btn);
 
-  shipPlacement.appendChild(shipInputDiv);
+  board.insertBefore(shipInputDiv, firstElementBoard);
+}
+
+function startTheGame() {
+  const shipInputDiv = document.querySelector(".ship-input-div");
+
+  let shipInputNodeList = Array.from(shipInputDiv.children);
+
+  const startDiv = document.createElement("div");
+  startDiv.classList.add("start-game");
+
+  const btn = document.createElement("button");
+  btn.setAttribute("id", "start-game-btn");
+  btn.textContent = "Start the Game";
+
+  if (loopNodeList(shipInputNodeList)) {
+    startDiv.appendChild(btn);
+    shipInputDiv.appendChild(startDiv);
+  }
+
+  function loopNodeList(array) {
+    return !array.some((item) => item.className === "start-game");
+  }
+}
+
+function removeShipButtonDiv() {
+  const shipInputDiv = document.querySelector(".ship-input-div");
+  shipInputDiv.remove();
+}
+
+function disableEventBoard() {
+  const playerBoards = document.querySelectorAll(".player-board");
+
+  playerBoards.forEach((element) => element.classList.add("disable"));
+}
+
+function enableEventBoard() {
+  const playerBoards = document.querySelectorAll(".player-board");
+
+  playerBoards.forEach((element) => element.classList.remove("disable"));
 }
 
 export {
@@ -143,4 +188,8 @@ export {
   renderBoard,
   getPlayerDomBoard,
   createShipButtonDiv,
+  startTheGame,
+  removeShipButtonDiv,
+  disableEventBoard,
+  enableEventBoard,
 };

@@ -1,4 +1,4 @@
-export function addShip(ship, start, end, board) {
+function addShip(ship, start, end, board) {
   let [x1, y1] = start;
   let [x2, y2] = end;
 
@@ -38,3 +38,5 @@ function loopCoordinates(same, diff, pos, ship, board) {
     }
   }
 }
+
+export { addShip, loopCoordinates };

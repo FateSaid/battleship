@@ -1,5 +1,6 @@
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "../01-ship/ship.js";
+import { createBoard } from "./create-board.js";
 
 describe("Gameboard", () => {
   const game = Gameboard();
@@ -40,13 +41,13 @@ describe("Receiving Attack", () => {
 
   test("Should store missed attacks", () => {
     game.receiveAttack([0, 0]);
-    expect(game.missedAttacks).toContainEqual([0, 0]);
+    expect(game.getMissedAttacks()).toContainEqual([0, 0]);
   });
 
   test("Should store hit attacks", () => {
     game.receiveAttack([5, 7]);
 
-    let stringArray = game.hitAttacks.map((el) => JSON.stringify(el));
+    let stringArray = game.getHitAttacks().map((el) => JSON.stringify(el));
 
     expect(stringArray).toContainEqual("[5,7]");
   });
@@ -88,6 +89,34 @@ describe("Opponent board", () => {
   it("Should store attacks", () => {
     game.placeShip("Patrol Boat", 2, [0, 0], [0, 1]);
     game.receiveAttack([0, 0]);
-    expect(game.hitAttacks).toEqual([[0, 0]]);
+    expect(game.getHitAttacks()).toEqual([[0, 0]]);
+  });
+});
+
+describe("restartBoard function", () => {
+  const game = Gameboard();
+  game.placeShip("carrier", 5, [0, 0], [0, 4]);
+
+  test("refresh board", () => {
+    let board = createBoard();
+    game.resetVariables();
+    expect(game.getBoard()).toEqual(board);
+  });
+
+  test("return empty array for hits and miss", () => {
+    game.placeShip("Destroyer", 3, [4, 3], [4, 5]);
+
+    game.receiveAttack([4, 3]);
+    game.receiveAttack([1, 2]);
+
+    expect(game.getBoard()[4][3].name).toBe("Destroyer");
+
+    game.resetVariables();
+    let hitArray = game.getHitAttacks();
+    let missedArray = game.getMissedAttacks();
+
+    expect(hitArray.length).toBe(0);
+    expect(missedArray.length).toBe(0);
+    expect(game.getBoard()[4][3].name).not.toBe("Destroyer");
   });
 });

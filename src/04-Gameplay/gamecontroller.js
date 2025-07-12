@@ -34,8 +34,8 @@ export function GameController(player1, player2) {
 
     let opponent = getOpponent();
 
-    let missedArray = opponent.game.missedAttacks;
-    let hitArray = opponent.game.hitAttacks;
+    let missedArray = opponent.game.getMissedAttacks();
+    let hitArray = opponent.game.getHitAttacks();
 
     let combinedArray = missedArray.concat(hitArray);
 
@@ -61,10 +61,17 @@ export function GameController(player1, player2) {
     return opponent.game.totalShipSunk();
   }
 
+  const restart = () => {
+    players.forEach((player) => {
+      player.game.resetVariables();
+    });
+  };
+
   return {
     getActivePlayer,
     getOpponent,
     playRound,
     getPlayers,
+    restart,
   };
 }

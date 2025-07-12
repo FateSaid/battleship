@@ -2,10 +2,19 @@ import { gameModeSelection } from "./game-mode-selector.js";
 import {
   ScreenController,
   displayBoard,
+  computerShipPlacement,
 } from "../05-ScreenController/screencontroller";
-import { renderBoard, getPlayerDomBoard } from "../05-ScreenController/dom";
+import {
+  renderBoard,
+  getPlayerDomBoard,
+  createShipButtonDiv,
+  startTheGame,
+  removeShipButtonDiv,
+  disableEventBoard,
+  enableEventBoard,
+} from "../05-ScreenController/dom";
 import { GameController } from "../04-Gameplay/gamecontroller.js";
-import { createShipButtonDiv } from "../05-ScreenController/dom";
+import { randomShipPlacement } from "../05-ScreenController/random-ship-placement.js";
 
 function homeEvents(playerOneButton, playerTwoButton) {
   playerOneButton.addEventListener("click", () => {
@@ -16,108 +25,70 @@ function homeEvents(playerOneButton, playerTwoButton) {
   });
 }
 
-function restart() {
-  const restartBtn = document.querySelector(".restart");
+function exit() {
+  const exitBtn = document.querySelector(".exit");
 
-  restartBtn.addEventListener("click", () => {
+  exitBtn.addEventListener("click", () => {
     location.reload();
   });
 }
 
-function shipCoordinateBtnEvent(gameplay) {
-  const carrierBtn = document.getElementById("carrier-btn");
-  const battleshipBtn = document.getElementById("battleship-btn");
-  const destroyerBtn = document.getElementById("destroyer-btn");
-  const submarineBtn = document.getElementById("submarine-btn");
-  const patrolBoatBtn = document.getElementById("patrol-boat-btn");
-  let domBoard = getPlayerDomBoard(gameplay);
+function generateRandomShipEvent(gameplay) {
+  const randomBtn = document.getElementById("random-ship-generator-btn");
+  const boardDom = getPlayerDomBoard(gameplay);
+  const player = gameplay.getActivePlayer();
 
-  carrierBtn.addEventListener("click", () => {
-    let currentPlayer = gameplay.getActivePlayer();
-    let carrierCoordinate = getShipInput("carrier");
+  randomBtn.addEventListener("click", () => {
+    player.game.restartBoard();
+    let board = player.game.getBoard();
 
-    currentPlayer.game.placeShip(
+    let carrierCoordinate = randomShipPlacement(4, board);
+
+    player.game.placeShip(
       "carrier",
       5,
       carrierCoordinate[0],
       carrierCoordinate[1]
     );
-    displayBoard(domBoard, gameplay);
-  });
 
-  battleshipBtn.addEventListener("click", () => {
-    let currentPlayer = gameplay.getActivePlayer();
-    let battleshipCoordinate = getShipInput("battleship");
+    let battleshipCoordinate = randomShipPlacement(3, board);
 
-    currentPlayer.game.placeShip(
-      "carrier",
+    player.game.placeShip(
+      "battleship",
       4,
       battleshipCoordinate[0],
       battleshipCoordinate[1]
     );
 
-    displayBoard(domBoard, gameplay);
-  });
+    let destroyerCoordinate = randomShipPlacement(2, board);
 
-  destroyerBtn.addEventListener("click", () => {
-    let currentPlayer = gameplay.getActivePlayer();
-    let destroyerCoordinate = getShipInput("battleship");
-
-    currentPlayer.game.placeShip(
-      "carrier",
+    player.game.placeShip(
+      "destroyer",
       3,
       destroyerCoordinate[0],
       destroyerCoordinate[1]
     );
-    displayBoard(domBoard, gameplay);
-  });
 
-  submarineBtn.addEventListener("click", () => {
-    let currentPlayer = gameplay().getActivePlayer();
-    let submarineCoordinate = getShipInput("battleship");
+    let submarineCoordinate = randomShipPlacement(2, board);
 
-    currentPlayer.game.placeShip(
-      "carrier",
+    player.game.placeShip(
+      "submarine",
       3,
       submarineCoordinate[0],
       submarineCoordinate[1]
     );
-    displayBoard(domBoard, gameplay);
-  });
 
-  patrolBoatBtn.addEventListener("click", () => {
-    let currentPlayer = gameplay.getActivePlayer();
-    let patrolBoatCoordinate = getShipInput("battleship");
+    let patrolBoatCoordinate = randomShipPlacement(1, board);
 
-    currentPlayer.game.placeShip(
-      "carrier",
+    player.game.placeShip(
+      "Patrol Boat",
       2,
       patrolBoatCoordinate[0],
       patrolBoatCoordinate[1]
     );
-    displayBoard(domBoard, gameplay);
+
+    displayBoard(boardDom, gameplay);
   });
-}
-
-function getShipInput(ship) {
-  const startXInput = document.getElementById(
-    `start-x-${ship.toLowerCase().replace(" ", "-")}`
-  ).value;
-  const startYInput = document.getElementById(
-    `start-y-${ship.toLowerCase().replace(" ", "-")}`
-  ).value;
-
-  const endXInput = document.getElementById(
-    `end-x-${ship.toLowerCase().replace(" ", "-")}`
-  ).value;
-  const endYInput = document.getElementById(
-    `end-y-${ship.toLowerCase().replace(" ", "-")}`
-  ).value;
-
-  return [
-    [startXInput, startYInput],
-    [endXInput, endYInput],
-  ];
 }
 
 function getPlayerNameInput(form, btn) {
@@ -132,6 +103,9 @@ function getPlayerNameInput(form, btn) {
         renderBoard(playerOneNameInput.value, "Computer");
         gameplay = GameController(playerOneNameInput.value);
         ScreenController(gameplay);
+        disableEventBoard();
+        createShipButtonDiv();
+        generateRandomShipEvent(gameplay);
       } else if (playerTwoNameInput !== null) {
         renderBoard(playerOneNameInput.value, playerTwoNameInput.value);
         gameplay = GameControllerController(
@@ -139,14 +113,30 @@ function getPlayerNameInput(form, btn) {
           playerTwoNameInput.value
         );
         ScreenController(gameplay);
+        disableEventBoard;
+        createShipButtonDiv();
+        generateRandomShipEvent(gameplay);
       } else {
         throw new Error("player input error");
       }
 
       form.remove();
-      createShipButtonDiv();
     }
+    startTheGame();
+    startGameEvent(gameplay);
+    disableEventBoard();
   });
 }
 
-export { homeEvents, restart, getPlayerNameInput, shipCoordinateBtnEvent };
+function startGameEvent(gameplay) {
+  const startBtn = document.getElementById("start-game-btn");
+
+  startBtn.addEventListener("click", (e) => {
+    removeShipButtonDiv();
+    enableEventBoard();
+    computerShipPlacement(gameplay);
+    e.stopPropagation();
+  });
+}
+
+export { homeEvents, exit, getPlayerNameInput, startGameEvent };

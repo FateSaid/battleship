@@ -1,16 +1,16 @@
-import { getPlayerDomBoard } from "./dom.js";
-import { playerOneBoard, playerTwoBoard, resultOutput } from "./dom.js";
+import {
+  playerOneBoard,
+  playerTwoBoard,
+  resultOutput,
+  getPlayerDomBoard,
+  createShipButtonDiv,
+  disableEventBoard,
+  enableEventBoard,
+  removeShipButtonDiv,
+} from "./dom.js";
+import { randomShipPlacement } from "./random-ship-placement.js";
 
 function ScreenController(gameplay) {
-  // let gameplay;
-  // if (typeof player1 != undefined && typeof player2 != undefined) {
-  //   gameplay = GameController(player1, player2);
-  // } else if (typeof player2 === undefined && typeof player1 != undefined) {
-  //   gameplay = GameController(player1);
-  // } else {
-  //   throw new Error("players are undefined");
-  // }
-
   playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
   updateScreen(gameplay);
 }
@@ -30,7 +30,7 @@ function playerTurn(player) {
 
 function createDivCell(domBoard, player, gameplay, status) {
   let board = player.game.getBoard();
-  let arrayAttacks = player.game.hitAttacks;
+  let arrayAttacks = player.game.getHitAttacks();
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement("div");
     row.classList.add("row");
@@ -89,7 +89,7 @@ function displayBoard(domBoard, gameplay) {
 }
 
 function displayMissedAttacks(player, x, y) {
-  let missed = player.game.missedAttacks;
+  let missed = player.game.getMissedAttacks();
   for (let i = 0; i < missed.length; i++) {
     let [a, b] = missed[i];
     if (a === x && b === y) {
@@ -104,6 +104,7 @@ function eventHandler(x, y, gameplay, cell) {
   cell.addEventListener("click", () => {
     if (typeof gameplay.playRound([x, y]) === "string") {
       resultOutput(`Winner is ${gameplay.getActivePlayer().name}!`);
+      disableEventBoard();
     } else {
       playerTurn(`${gameplay.getActivePlayer().name}'s turn`);
     }
@@ -125,4 +126,83 @@ function clearPlayerBoard(gameplay) {
   board.textContent = "";
 }
 
-export { ScreenController, displayBoard };
+function computerShipPlacement(gameplay) {
+  let computer = gameplay.getOpponent();
+
+  let board = computer.game.getBoard();
+
+  let carrierCoordinate = randomShipPlacement(4, board);
+
+  computer.game.placeShip(
+    "carrier",
+    5,
+    carrierCoordinate[0],
+    carrierCoordinate[1]
+  );
+
+  let battleshipCoordinate = randomShipPlacement(3, board);
+
+  computer.game.placeShip(
+    "battleship",
+    4,
+    battleshipCoordinate[0],
+    battleshipCoordinate[1]
+  );
+
+  let destroyerCoordinate = randomShipPlacement(2, board);
+
+  computer.game.placeShip(
+    "destroyer",
+    3,
+    destroyerCoordinate[0],
+    destroyerCoordinate[1]
+  );
+
+  let submarineCoordinate = randomShipPlacement(2, board);
+
+  computer.game.placeShip(
+    "submarine",
+    3,
+    submarineCoordinate[0],
+    submarineCoordinate[1]
+  );
+
+  let patrolBoatCoordinate = randomShipPlacement(1, board);
+
+  computer.game.placeShip(
+    "Patrol Boat",
+    2,
+    patrolBoatCoordinate[0],
+    patrolBoatCoordinate[1]
+  );
+}
+
+function restartGame(gameplay) {
+  const board = document.querySelector(".board");
+  const firstElementBoard = document.querySelector(".player-two");
+
+  const shipInputDiv = document.createElement("div");
+  shipInputDiv.classList.add("ship-input-div");
+
+  const restartDiv = document.createElement("div");
+  restartDiv.classList.add("restart-div");
+  const restartBtn = document.createElement("button");
+  restartBtn.setAttribute("id", "restart-btn");
+  restartBtn.textContent = "Restart";
+
+  restartDiv.appendChild(restartBtn);
+  shipInputDiv.appendChild(restartDiv);
+
+  board.insertBefore(shipInputDiv, firstElementBoard);
+
+  restartBtn.addEventListener("click", () => {
+    shipInputDiv.remove();
+    createShipButtonDiv();
+    gameplay.restart();
+    computerShipPlacement(gameplay);
+    removeShipButtonDiv();
+    enableEventBoard();
+  });
+}
+
+export { ScreenController, displayBoard, computerShipPlacement };

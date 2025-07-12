@@ -1,6 +1,10 @@
-function randomShipPlacement(length) {
+function randomShipPlacement(length, board) {
   let plane = getRandomPlane();
-  return getRandomShipCoordinate(plane, length);
+  let coordinates = getRandomShipCoordinate(plane, length);
+  if (!checkCoordinates(coordinates, board)) {
+    return randomShipPlacement(length, board);
+  }
+  return coordinates;
 }
 
 function getRandomPlane() {
@@ -41,7 +45,7 @@ function getRandomShipCoordinate(axis, length) {
         [startX, startY],
         [startX, startY + length],
       ];
-    } else if (startX - length >= 0) {
+    } else if (startY - length >= 0) {
       return [
         [startX, startY],
         [startX, startY - length],
@@ -52,4 +56,43 @@ function getRandomShipCoordinate(axis, length) {
   }
 }
 
-export { randomShipPlacement };
+function checkCoordinates(coordinates, board) {
+  let [startX, startY] = coordinates[0];
+  let [endX, endY] = coordinates[1];
+
+  if (startX === endX) {
+    if (startY > endY) {
+      for (let i = endY; i <= startY; i++) {
+        if (!Array.isArray(board[startX][i])) {
+          return false;
+        }
+      }
+    }
+    if (endY > startY) {
+      for (let i = startY; i <= endY; i++) {
+        if (!Array.isArray(board[startX][i])) {
+          return false;
+        }
+      }
+    }
+  }
+  if (startY === endY) {
+    if (startX > endX) {
+      for (let i = endX; i <= startX; i++) {
+        if (!Array.isArray(board[i][startY])) {
+          return false;
+        }
+      }
+    }
+    if (endX > startX) {
+      for (let i = startX; i <= endX; i++) {
+        if (!Array.isArray(board[i][startY])) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
+export { randomShipPlacement, checkCoordinates, getRandomShipCoordinate };

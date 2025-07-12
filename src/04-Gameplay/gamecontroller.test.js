@@ -24,7 +24,7 @@ describe("Playround", () => {
 
   it("User should miss and store missedAttack coordinate", () => {
     gameplay.playRound([9, 9]);
-    expect(gameplay.getActivePlayer().game.missedAttacks).toContainEqual([
+    expect(gameplay.getActivePlayer().game.getMissedAttacks()).toContainEqual([
       9, 9,
     ]);
   });
@@ -82,4 +82,39 @@ describe("Calculate Winner", () => {
   gameplay.playRound([2, 4]);
 
   expect(gameplay.playRound([1, 9])).toBe("Winner is User");
+});
+
+describe("test resetGame property", () => {
+  let gameplay = GameController("Tom", "Eric");
+  let [play1, play2] = gameplay.getPlayers();
+
+  SetupShip(play1, play2);
+
+  test("gameplay should have ships in board", () => {
+    let play1Board = play1.game.getBoard();
+    let play2Board = play2.game.getBoard();
+    expect(play1Board[0][3].name).toBe("Carrier");
+    expect(play2Board[5][7].name).toBe("Submarine");
+  });
+
+  test("gameplay should have hits and misses", () => {
+    gameplay.playRound([5, 6]);
+    gameplay.playRound([0, 2]);
+    gameplay.playRound([4, 4]);
+    gameplay.playRound([9, 9]);
+
+    gameplay.restart();
+
+    let play1Miss = play1.game.getMissedAttacks();
+    let play1Hits = play1.game.getHitAttacks();
+
+    let play1Board = play1.game.getBoard();
+    let play2Board = play2.game.getBoard();
+
+    expect(play1Miss.length).toBe(0);
+    expect(play1Hits.length).toBe(0);
+
+    expect(play1Board[0][3].name).not.toBe("Carrier");
+    expect(play2Board[5][7].name).not.toBe("Submarine");
+  });
 });

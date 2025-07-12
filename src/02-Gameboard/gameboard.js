@@ -8,7 +8,22 @@ export function Gameboard() {
 
   let missedAttacks = [];
 
+  const getMissedAttacks = () => missedAttacks;
+
+  const getHitAttacks = () => hitAttacks;
+
   const getBoard = () => board;
+
+  const resetVariables = () => {
+    board = createBoard();
+    missedAttacks = [];
+    hitAttacks = [];
+    shipsSunk = 0;
+  };
+
+  function restartBoard() {
+    board = createBoard();
+  }
 
   let shipsSunk = 0;
 
@@ -33,15 +48,17 @@ export function Gameboard() {
   }
 
   function receiveAttack(coordinate) {
-    attack(coordinate, board, missedAttacks, addShipsSunk, hitAttacks);
+    attack(coordinate, board, getMissedAttacks, addShipsSunk, getHitAttacks);
   }
 
   return {
     getBoard,
     placeShip,
     receiveAttack,
-    missedAttacks,
+    getHitAttacks,
     totalShipSunk,
-    hitAttacks,
+    getMissedAttacks,
+    resetVariables,
+    restartBoard,
   };
 }

@@ -127,7 +127,7 @@ describe("Calculate Next Target", () => {
     let [play1, play2] = gameplay.getPlayers();
     SetupShip(play1, play2);
 
-    //player 1 hitAttacks [5,5],[4,5],[8,9] // missAttacks [4,6],[4,7]
+    //player 1 hitAttacks [4,5],[8,9],[4,4] // missAttacks [4,6],[4,7]
 
     gameplay.playRound([0, 0]);
     gameplay.playRound([4, 5]);
@@ -151,15 +151,15 @@ describe("Calculate Next Target", () => {
     gameplay.playRound([5, 5]);
     gameplay.playRound([6, 7]);
 
-    expect(getShipOrientation(gameplay.getActivePlayer().game.hitAttacks)).toBe(
-      "Vertical"
-    );
+    expect(
+      getShipOrientation(gameplay.getActivePlayer().game.getHitAttacks())
+    ).toBe("Vertical");
 
     gameplay.playRound([5, 6]);
 
-    expect(getShipOrientation(gameplay.getActivePlayer().game.hitAttacks)).toBe(
-      "Horizontal"
-    );
+    expect(
+      getShipOrientation(gameplay.getActivePlayer().game.getHitAttacks())
+    ).toBe("Horizontal");
   });
 
   test("predictShipLocation should return ship coordinate", () => {
