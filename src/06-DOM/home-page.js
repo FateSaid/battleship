@@ -1,9 +1,6 @@
 export function homePage() {
   const content = document.querySelector(".content");
 
-  const homePageOption = document.createElement("div");
-  homePageOption.classList.add("home-page-option");
-
   const playerOption = document.createElement("div");
   playerOption.classList.add("player-option");
 
@@ -18,7 +15,5 @@ export function homePage() {
   playerOption.appendChild(playerOneOption);
   playerOption.appendChild(playerTwoOption);
 
-  homePageOption.appendChild(playerOption);
-
-  content.appendChild(homePageOption);
+  content.appendChild(playerOption);
 }
