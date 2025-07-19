@@ -177,32 +177,4 @@ function computerShipPlacement(gameplay) {
   );
 }
 
-function restartGame(gameplay) {
-  const board = document.querySelector(".board");
-  const firstElementBoard = document.querySelector(".player-two");
-
-  const shipInputDiv = document.createElement("div");
-  shipInputDiv.classList.add("ship-input-div");
-
-  const restartDiv = document.createElement("div");
-  restartDiv.classList.add("restart-div");
-  const restartBtn = document.createElement("button");
-  restartBtn.setAttribute("id", "restart-btn");
-  restartBtn.textContent = "Restart";
-
-  restartDiv.appendChild(restartBtn);
-  shipInputDiv.appendChild(restartDiv);
-
-  board.insertBefore(shipInputDiv, firstElementBoard);
-
-  restartBtn.addEventListener("click", () => {
-    shipInputDiv.remove();
-    createShipButtonDiv();
-    gameplay.restart();
-    computerShipPlacement(gameplay);
-    removeShipButtonDiv();
-    enableEventBoard();
-  });
-}
-
 export { ScreenController, displayBoard, computerShipPlacement };
