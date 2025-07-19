@@ -176,6 +176,22 @@ header {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  border: 1px solid #000;
+}
+
+.ship-input-random {
+  border: 1px solid #000;
+  border-radius: 25px;
+  padding: 20px;
+  background-color: #b3b2b22e;
+}
+
+#random-ship-btn {
+  padding: 5px 10px;
+  margin-top: 10px;
+  background-color: #0000007d;
+  color: white;
+  border-radius: 10px;
 }
 
 .player-board {

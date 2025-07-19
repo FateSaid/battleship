@@ -41,4 +41,25 @@ export function createGameBoard(player1, player2) {
   const boardLastElement = board.lastElementChild;
 
   board.insertBefore(shipInputDiv, boardLastElement);
+
+  createShipInputDiv();
+}
+
+function createShipInputDiv() {
+  const shipInputDiv = document.querySelector(".ship-input-div");
+
+  const randomShipDiv = document.createElement("div");
+  randomShipDiv.classList.add("ship-input-random");
+
+  const randomShipTitle = document.createElement("div");
+  randomShipTitle.textContent = "Generate random ship coordinates";
+
+  const randomShipBtn = document.createElement("button");
+  randomShipBtn.setAttribute("id", "random-ship-btn");
+  randomShipBtn.textContent = "Click";
+
+  randomShipDiv.appendChild(randomShipTitle);
+  randomShipDiv.appendChild(randomShipBtn);
+
+  shipInputDiv.appendChild(randomShipDiv);
 }
