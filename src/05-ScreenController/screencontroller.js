@@ -3,10 +3,7 @@ import {
   playerTwoBoard,
   resultOutput,
   getPlayerDomBoard,
-  createShipButtonDiv,
   disableEventBoard,
-  enableEventBoard,
-  removeShipButtonDiv,
 } from "./dom.js";
 import { randomShipPlacement } from "./random-ship-placement.js";
 
