@@ -1,4 +1,4 @@
-import { playerSelection } from "./game-mode-selection";
+import { playerSelection } from "./gamemode-selection";
 
 export function homeEvents(play1Btn, play2Btn) {
   play1Btn.addEventListener("click", () => {

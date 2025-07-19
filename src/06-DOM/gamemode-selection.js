@@ -1,3 +1,5 @@
+import { gameModeEvent } from "./gamemode-selection-event";
+
 function playerSelection(multi) {
   const content = document.querySelector(".content");
 
@@ -48,6 +50,13 @@ function playerSelection(multi) {
   playerForm.appendChild(btnDiv);
 
   content.appendChild(playerForm);
+
+  gameModeEvent(btn);
 }
 
-export { playerSelection };
+function removePlayerSelection() {
+  const playerForm = document.querySelector(".player-form");
+  playerForm.remove();
+}
+
+export { playerSelection, removePlayerSelection };
