@@ -1,11 +1,14 @@
 import { createGameBoard } from "./game-screen";
 import { removePlayerSelection } from "./gamemode-selection";
+import { gameplayEvents } from "./gameplay-event";
 export function gameModeEvent(btn) {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     let players = getPlayerInput();
     createGameBoard(players[0], players[1]);
     removePlayerSelection();
+
+    gameplayEvents(players);
   });
 }
 
