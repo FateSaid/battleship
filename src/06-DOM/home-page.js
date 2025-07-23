@@ -1,5 +1,3 @@
-import { homeEvents } from "./home-page-event";
-
 export function homePage() {
   const content = document.querySelector(".content");
 
@@ -20,4 +18,14 @@ export function homePage() {
   content.appendChild(playerOption);
 
   homeEvents(playerOneOption, playerTwoOption);
+}
+
+function homeEvents(play1Btn, play2Btn) {
+  play1Btn.addEventListener("click", () => {
+    playerSelection(1);
+  });
+
+  play2Btn.addEventListener("click", () => {
+    playerSelection(2);
+  });
 }
