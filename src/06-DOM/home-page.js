@@ -1,3 +1,5 @@
+import { playerSelection } from "./gamemode-selection";
+
 export function homePage() {
   const content = document.querySelector(".content");
 
@@ -18,6 +20,8 @@ export function homePage() {
   content.appendChild(playerOption);
 
   homeEvents(playerOneOption, playerTwoOption);
+
+  restartHomePage();
 }
 
 function homeEvents(play1Btn, play2Btn) {
@@ -27,5 +31,13 @@ function homeEvents(play1Btn, play2Btn) {
 
   play2Btn.addEventListener("click", () => {
     playerSelection(2);
+  });
+}
+
+function restartHomePage() {
+  const exitBtn = document.querySelector(".exit");
+
+  exitBtn.addEventListener("click", () => {
+    location.reload();
   });
 }
