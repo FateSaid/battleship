@@ -1,4 +1,4 @@
-import { gameModeEvent } from "./gamemode-selection-event";
+import { ScreenController } from "../05-ScreenController/screencontroller";
 
 function playerSelection(multi) {
   const content = document.querySelector(".content");
@@ -52,6 +52,34 @@ function playerSelection(multi) {
   content.appendChild(playerForm);
 
   gameModeEvent(btn);
+}
+
+function gameModeEvent(btn) {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let players = getPlayerInput();
+    removePlayerSelection();
+
+    ScreenController(players[0], players[1]);
+  });
+}
+
+function getPlayerInput() {
+  const inputs = document.querySelectorAll("input");
+
+  let players = [];
+
+  inputs.forEach((input) => {
+    if (input.value !== "") {
+      players.push(input.value);
+    }
+  });
+
+  if (players.length === 1) {
+    players.push("Computer");
+  }
+
+  return players;
 }
 
 function removePlayerSelection() {
