@@ -45,6 +45,8 @@ export function createGameBoard(player1, player2) {
   createShipInputDiv();
 
   createStartDiv();
+
+  createMessageOutput();
 }
 
 function createShipInputDiv() {
@@ -83,4 +85,13 @@ function createStartDiv() {
   startDiv.appendChild(startBtn);
 
   shipInputDiv.appendChild(startDiv);
+}
+
+function createMessageOutput() {
+  const shipInputDiv = document.querySelector(".ship-input-div");
+
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message-div");
+
+  shipInputDiv.appendChild(messageDiv);
 }

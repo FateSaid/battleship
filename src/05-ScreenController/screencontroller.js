@@ -76,4 +76,9 @@ function renderBoardFromArray(dom, board) {
   }
 }
 
+function outputMessage(char) {
+  const messageDiv = document.querySelector(".message-div");
+  messageDiv.textContent = char;
+}
+
 export { ScreenController };
