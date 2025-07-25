@@ -43,6 +43,8 @@ export function createGameBoard(player1, player2) {
   board.insertBefore(shipInputDiv, boardLastElement);
 
   createShipInputDiv();
+
+  createStartDiv();
 }
 
 function createShipInputDiv() {
@@ -62,4 +64,23 @@ function createShipInputDiv() {
   randomShipDiv.appendChild(randomShipBtn);
 
   shipInputDiv.appendChild(randomShipDiv);
+}
+
+function createStartDiv() {
+  const shipInputDiv = document.querySelector(".ship-input-div");
+
+  const startDiv = document.createElement("div");
+  startDiv.classList.add("start-div");
+
+  const startTitle = document.createElement("div");
+  startTitle.textContent = "Start Game";
+
+  const startBtn = document.createElement("button");
+  startBtn.setAttribute("id", "start-btn");
+  startBtn.textContent = "Click";
+
+  startDiv.appendChild(startTitle);
+  startDiv.appendChild(startBtn);
+
+  shipInputDiv.appendChild(startDiv);
 }
