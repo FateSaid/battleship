@@ -27,7 +27,7 @@ function initStartGameListener(gameplay) {
 
   startBtn.addEventListener("click", () => {
     initPlayerBoardShip(opponent);
-    updateActiveUserBoard(opponent);
+    updateActiveUserBoard(opponent, gameplay);
   });
 }
 
@@ -46,4 +46,10 @@ function getActivePlayerDom(player) {
   }
 }
 
-export { ScreenController };
+function initCellEvent(cell, gameplay, i, j) {
+  cell.addEventListener("click", () => {
+    gameplay.playRound([i, j]);
+  });
+}
+
+export { ScreenController, initCellEvent, getActivePlayerDom };

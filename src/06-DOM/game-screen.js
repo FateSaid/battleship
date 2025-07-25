@@ -1,3 +1,8 @@
+import {
+  initCellEvent,
+  getActivePlayerDom,
+} from "../05-ScreenController/screencontroller";
+
 function createGameBoard(player1, player2) {
   if (typeof player2 === undefined) {
     player2 = "Computer";
@@ -101,17 +106,17 @@ function outputMessage(char) {
   messageDiv.textContent = char;
 }
 
-function updateActiveUserBoard(user) {
+function updateActiveUserBoard(user, gameplay) {
   const playerName = user.name;
 
   const board = user.game.getBoard();
 
   const userDom = getActivePlayerDom(playerName);
 
-  renderBoardFromArray(userDom, board);
+  renderBoardFromArray(userDom, board, gameplay);
 }
 
-function renderBoardFromArray(dom, board) {
+function renderBoardFromArray(dom, board, gameplay) {
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement("div");
     row.classList.add("row");
@@ -124,9 +129,7 @@ function renderBoardFromArray(dom, board) {
         cell.classList.add("ship");
       }
 
-      cell.addEventListener("click", () => {
-        console.log(i, j);
-      });
+      initCellEvent(cell, gameplay, i, j);
 
       row.appendChild(cell);
     }
