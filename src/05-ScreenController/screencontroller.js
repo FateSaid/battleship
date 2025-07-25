@@ -24,6 +24,7 @@ function initStartGameListener(gameplay) {
 
   startBtn.addEventListener("click", () => {
     initPlayerBoardShip(opponent);
+    updateActiveUserBoard(opponent);
   });
 }
 
