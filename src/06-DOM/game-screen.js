@@ -1,4 +1,4 @@
-export function createGameBoard(player1, player2) {
+function createGameBoard(player1, player2) {
   if (typeof player2 === undefined) {
     player2 = "Computer";
   }
@@ -95,3 +95,43 @@ function createMessageOutput() {
 
   shipInputDiv.appendChild(messageDiv);
 }
+
+function outputMessage(char) {
+  const messageDiv = document.querySelector(".message-div");
+  messageDiv.textContent = char;
+}
+
+function updateActiveUserBoard(user) {
+  const playerName = user.name;
+
+  const board = user.game.getBoard();
+
+  const userDom = getActivePlayerDom(playerName);
+
+  renderBoardFromArray(userDom, board);
+}
+
+function renderBoardFromArray(dom, board) {
+  for (let i = 0; i < board.length; i++) {
+    const row = document.createElement("div");
+    row.classList.add("row");
+
+    for (let j = 0; j < board[i].length; j++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+
+      if (!Array.isArray(board[i][j])) {
+        cell.classList.add("ship");
+      }
+
+      cell.addEventListener("click", () => {
+        console.log(i, j);
+      });
+
+      row.appendChild(cell);
+    }
+    dom.appendChild(row);
+  }
+}
+
+export { createGameBoard, outputMessage, updateActiveUserBoard };

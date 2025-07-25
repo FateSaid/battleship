@@ -1,5 +1,6 @@
 import { GameController } from "../04-Gameplay/gamecontroller";
 import { initPlayerBoardShip } from "./random-ship-placement";
+import { outputMessage, updateActiveUserBoard } from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
 
@@ -43,44 +44,6 @@ function getActivePlayerDom(player) {
       return allTitleBoard[i].nextElementSibling;
     }
   }
-}
-
-function updateActiveUserBoard(user) {
-  const playerName = user.name;
-
-  const board = user.game.getBoard();
-
-  const userDom = getActivePlayerDom(playerName);
-
-  renderBoardFromArray(userDom, board);
-}
-
-function renderBoardFromArray(dom, board) {
-  for (let i = 0; i < board.length; i++) {
-    const row = document.createElement("div");
-    row.classList.add("row");
-
-    for (let j = 0; j < board[i].length; j++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-
-      if (!Array.isArray(board[i][j])) {
-        cell.classList.add("ship");
-      }
-
-      cell.addEventListener("click", () => {
-        console.log(i, j);
-      });
-
-      row.appendChild(cell);
-    }
-    dom.appendChild(row);
-  }
-}
-
-function outputMessage(char) {
-  const messageDiv = document.querySelector(".message-div");
-  messageDiv.textContent = char;
 }
 
 export { ScreenController };
