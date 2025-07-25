@@ -1,5 +1,4 @@
-function initPlayerBoardShip(gameplay) {
-  let activeUser = gameplay.getActivePlayer();
+function initPlayerBoardShip(activeUser) {
   activeUser.game.restartBoard();
 
   placeShipOnBoard(activeUser, "Carrier", 4);

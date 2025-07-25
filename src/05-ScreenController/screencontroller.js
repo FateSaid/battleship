@@ -12,9 +12,16 @@ function initRandomShipPlacementListener(gameplay) {
 
   btn.addEventListener("click", () => {
     clearBoard(activePlayer);
-    initPlayerBoardShip(gameplay);
+    initPlayerBoardShip(activePlayer);
     updateActiveUserBoard(gameplay);
   });
+}
+
+function initStartGameListener(gameplay) {
+  const startBtn = document.getElementById("start-btn");
+  const opponent = gameplay.getOpponent();
+
+  startBtn.addEventListener("click", () => {});
 }
 
 function clearBoard(player) {
@@ -54,6 +61,10 @@ function renderBoardFromArray(dom, board) {
       if (!Array.isArray(board[i][j])) {
         cell.classList.add("ship");
       }
+
+      cell.addEventListener("click", () => {
+        console.log(i, j);
+      });
 
       row.appendChild(cell);
     }
