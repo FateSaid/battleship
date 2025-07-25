@@ -3,6 +3,8 @@ import { initPlayerBoardShip } from "./random-ship-placement";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
 
+  outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
+
   initRandomShipPlacementListener(gameplay);
   initStartGameListener(gameplay);
 }
