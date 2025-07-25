@@ -4,6 +4,7 @@ function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
 
   initRandomShipPlacementListener(gameplay);
+  initStartGameListener(gameplay);
 }
 
 function initRandomShipPlacementListener(gameplay) {
@@ -13,7 +14,7 @@ function initRandomShipPlacementListener(gameplay) {
   btn.addEventListener("click", () => {
     clearBoard(activePlayer);
     initPlayerBoardShip(activePlayer);
-    updateActiveUserBoard(gameplay);
+    updateActiveUserBoard(activePlayer);
   });
 }
 
@@ -21,7 +22,9 @@ function initStartGameListener(gameplay) {
   const startBtn = document.getElementById("start-btn");
   const opponent = gameplay.getOpponent();
 
-  startBtn.addEventListener("click", () => {});
+  startBtn.addEventListener("click", () => {
+    initPlayerBoardShip(opponent);
+  });
 }
 
 function clearBoard(player) {
@@ -39,10 +42,10 @@ function getActivePlayerDom(player) {
   }
 }
 
-function updateActiveUserBoard(gameplay) {
-  const playerName = gameplay.getActivePlayer().name;
+function updateActiveUserBoard(user) {
+  const playerName = user.name;
 
-  const board = gameplay.getActivePlayer().game.getBoard();
+  const board = user.game.getBoard();
 
   const userDom = getActivePlayerDom(playerName);
 
