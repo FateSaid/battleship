@@ -1,4 +1,5 @@
 import { ScreenController } from "../05-ScreenController/screencontroller";
+import { createGameBoard } from "../06-DOM/game-screen";
 
 function playerSelection(multi) {
   const content = document.querySelector(".content");
@@ -59,7 +60,7 @@ function gameModeEvent(btn) {
     e.preventDefault();
     let players = getPlayerInput();
     removePlayerSelection();
-
+    createGameBoard(players[0], players[1]);
     ScreenController(players[0], players[1]);
   });
 }

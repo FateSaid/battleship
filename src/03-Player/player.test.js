@@ -4,6 +4,10 @@ describe("creating Player class", () => {
   const user = Player("User");
   const computer = Player("Computer");
 
+  it("Expect User to output name", () => {
+    expect(user.name).toBe("User");
+  });
+
   it("Expect User to be defined", () => {
     expect(user).toBeDefined();
   });

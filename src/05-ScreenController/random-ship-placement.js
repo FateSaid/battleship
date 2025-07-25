@@ -1,3 +1,24 @@
+function initPlayerBoardShip(gameplay) {
+  let activeUser = gameplay.getActivePlayer();
+  activeUser.game.restartBoard();
+
+  placeShipOnBoard(activeUser, "Carrier", 4);
+
+  placeShipOnBoard(activeUser, "Battleship", 3);
+
+  placeShipOnBoard(activeUser, "Destroyer", 2);
+
+  placeShipOnBoard(activeUser, "Submarine", 2);
+
+  placeShipOnBoard(activeUser, "Patrol Boat", 1);
+}
+
+function placeShipOnBoard(activeUser, name, length) {
+  let board = activeUser.game.getBoard();
+  let coordinates = randomShipPlacement(length, board);
+  activeUser.game.placeShip(name, length, coordinates[0], coordinates[1]);
+}
+
 function randomShipPlacement(length, board) {
   let plane = getRandomPlane();
   let coordinates = getRandomShipCoordinate(plane, length);
@@ -95,4 +116,9 @@ function checkCoordinates(coordinates, board) {
   return true;
 }
 
-export { randomShipPlacement, checkCoordinates, getRandomShipCoordinate };
+export {
+  randomShipPlacement,
+  checkCoordinates,
+  getRandomShipCoordinate,
+  initPlayerBoardShip,
+};
