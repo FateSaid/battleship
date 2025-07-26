@@ -111,12 +111,16 @@ function updateActiveUserBoard(user, gameplay) {
 
   const board = user.game.getBoard();
 
+  const hitArray = user.game.getHitAttacks();
+
+  const missArray = user.game.getMissedAttacks();
+
   const userDom = getActivePlayerDom(playerName);
 
-  renderBoardFromArray(userDom, board, gameplay);
+  renderBoardFromArray(userDom, board, gameplay, hitArray, missArray);
 }
 
-function renderBoardFromArray(dom, board, gameplay) {
+function renderBoardFromArray(dom, board, gameplay, hitArray, missArray) {
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement("div");
     row.classList.add("row");
@@ -125,9 +129,16 @@ function renderBoardFromArray(dom, board, gameplay) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
 
+      //mark ship location for user
       if (!Array.isArray(board[i][j])) {
         cell.classList.add("ship");
       }
+
+      //hit attacks mark cell
+      markCellMoves(hitArray, i, j, cell, "damage");
+
+      //missed attacks mark cell
+      markCellMoves(missArray, i, j, cell, "missed");
 
       initCellEvent(cell, gameplay, i, j);
 
@@ -135,6 +146,15 @@ function renderBoardFromArray(dom, board, gameplay) {
     }
     dom.appendChild(row);
   }
+}
+
+function markCellMoves(array, i, j, cell, action) {
+  array.forEach((item) => {
+    let [a, b] = item;
+    if (a === i && b === j) {
+      cell.classList.add(action);
+    }
+  });
 }
 
 export { createGameBoard, outputMessage, updateActiveUserBoard };
