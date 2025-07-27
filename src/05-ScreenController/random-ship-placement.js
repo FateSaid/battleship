@@ -15,7 +15,7 @@ function initPlayerBoardShip(activeUser) {
 function placeShipOnBoard(activeUser, name, length) {
   let board = activeUser.game.getBoard();
   let coordinates = randomShipPlacement(length, board);
-  activeUser.game.placeShip(name, length, coordinates[0], coordinates[1]);
+  activeUser.game.placeShip(name, length + 1, coordinates[0], coordinates[1]);
 }
 
 function randomShipPlacement(length, board) {
