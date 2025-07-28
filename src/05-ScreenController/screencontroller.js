@@ -32,6 +32,11 @@ function ScreenController(play1, play2) {
     updateActiveUserBoard(gameplay.getOpponent());
 
     //disable activePlayer event board
+
+    disableActivePlayerBoard(
+      gameplay.getActivePlayer().name,
+      gameplay.getOpponent().name
+    );
   };
 
   initRandomShipPlacementListener(gameplay);
@@ -94,7 +99,7 @@ function ScreenController(play1, play2) {
       userDom.appendChild(row);
     }
   }
-  function initRandomShipPlacementListener(gameplay) {
+  function initRandomShipPlacementListener() {
     const btn = document.getElementById("random-ship-btn");
 
     const startBtn = document.getElementById("start-btn");
@@ -105,26 +110,35 @@ function ScreenController(play1, play2) {
       initPlayerBoardShip(activePlayer);
       updateActiveUserBoard(activePlayer);
 
+      //disable activeBoard
+      disableActivePlayerBoard(
+        gameplay.getActivePlayer().name,
+        gameplay.getOpponent().name
+      );
+
       if (startBtn.classList.contains("disable")) {
         togglesDisable(startBtn);
       }
     });
   }
 
-  function initStartGameListener(gameplay) {
+  function initStartGameListener() {
     const startBtn = document.getElementById("start-btn");
     const randomBtn = document.getElementById("random-ship-btn");
 
     const opponent = gameplay.getOpponent();
 
     startBtn.addEventListener("click", () => {
+      //stop event if both boards are empty
+      if (
+        getActivePlayerDom(gameplay.getActivePlayer().name)
+          .childElementCount === 0
+      ) {
+        return;
+      }
+
       //toggle disable randomBtn
       togglesDisable(randomBtn);
-
-      //player 2 turn if not computer
-
-      if (play2 !== "Computer") {
-      }
 
       //check if 2nd board is empty
       if (document.getElementById("player-two-board").childElementCount === 0) {
@@ -137,16 +151,6 @@ function ScreenController(play1, play2) {
         toggleStartBtn();
       }
     });
-  }
-
-  function getActivePlayerDom(player) {
-    const allTitleBoard = document.querySelectorAll(".player-title");
-
-    for (let i = 0; i < allTitleBoard.length; i++) {
-      if (allTitleBoard[i].textContent === player) {
-        return allTitleBoard[i].nextElementSibling;
-      }
-    }
   }
 
   function clearBoard(player) {
@@ -166,6 +170,26 @@ function resetPlayerBoards(gameplay) {
   gameplay.getPlayers().forEach((player) => {
     player.game.resetVariables();
   });
+}
+
+function disableActivePlayerBoard(player, opponent) {
+  const playerDom = getActivePlayerDom(player);
+  const opponentDom = getActivePlayerDom(opponent);
+
+  if (!playerDom.classList.contains("disable")) {
+    playerDom.classList.add("disable");
+    opponentDom.classList.remove("disable");
+  }
+}
+
+function getActivePlayerDom(player) {
+  const allTitleBoard = document.querySelectorAll(".player-title");
+
+  for (let i = 0; i < allTitleBoard.length; i++) {
+    if (allTitleBoard[i].textContent === player) {
+      return allTitleBoard[i].nextElementSibling;
+    }
+  }
 }
 
 export { ScreenController };
