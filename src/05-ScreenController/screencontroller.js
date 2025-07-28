@@ -108,9 +108,14 @@ function ScreenController(play1, play2) {
 
   function initStartGameListener(gameplay) {
     const startBtn = document.getElementById("start-btn");
+    const randomBtn = document.getElementById("random-ship-btn");
+
     const opponent = gameplay.getOpponent();
 
     startBtn.addEventListener("click", () => {
+      //toggle disable randomBtn
+      togglesDisable(randomBtn);
+
       //check if 2nd board is empty
       if (document.getElementById("player-two-board").childElementCount === 0) {
         initPlayerBoardShip(opponent);
