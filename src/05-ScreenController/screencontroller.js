@@ -27,15 +27,17 @@ function ScreenController(play1, play2) {
 
     //update board
 
-    updateActiveUserBoard(gameplay.getActivePlayer(), gameplay);
+    updateActiveUserBoard(gameplay.getActivePlayer());
 
-    updateActiveUserBoard(gameplay.getOpponent(), gameplay);
+    updateActiveUserBoard(gameplay.getOpponent());
+
+    //disable activePlayer event board
   };
 
   initRandomShipPlacementListener(gameplay);
   initStartGameListener(gameplay);
 
-  function updateActiveUserBoard(user, gameplay) {
+  function updateActiveUserBoard(user) {
     const playerName = user.name;
 
     const board = user.game.getBoard();
@@ -55,8 +57,11 @@ function ScreenController(play1, play2) {
         cell.classList.add("cell");
 
         //mark ship location for user
+
         if (!Array.isArray(board[i][j])) {
-          cell.classList.add("ship");
+          if (gameplay.getActivePlayer().name === playerName) {
+            cell.classList.add("ship");
+          }
         }
 
         //hit attacks mark cell
@@ -115,6 +120,11 @@ function ScreenController(play1, play2) {
     startBtn.addEventListener("click", () => {
       //toggle disable randomBtn
       togglesDisable(randomBtn);
+
+      //player 2 turn if not computer
+
+      if (play2 !== "Computer") {
+      }
 
       //check if 2nd board is empty
       if (document.getElementById("player-two-board").childElementCount === 0) {
