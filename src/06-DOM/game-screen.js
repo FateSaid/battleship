@@ -75,6 +75,7 @@ function createStartDiv() {
   startDiv.classList.add("start-div");
 
   const startTitle = document.createElement("div");
+  startTitle.classList.add("start-title");
   startTitle.textContent = "Start Game";
 
   const startBtn = document.createElement("button");
@@ -101,4 +102,22 @@ function outputMessage(char) {
   messageDiv.textContent = char;
 }
 
-export { createGameBoard, outputMessage };
+function disableBoardEvent() {
+  const board = document.querySelectorAll(".player-board");
+
+  board.forEach((el) => {
+    el.classList.add("disable");
+  });
+}
+
+function changeStartBtnToRestart() {
+  const btnTitle = document.querySelector(".start-title");
+  btnTitle.textContent = "Restart Game";
+}
+
+export {
+  createGameBoard,
+  outputMessage,
+  disableBoardEvent,
+  changeStartBtnToRestart,
+};

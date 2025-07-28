@@ -1,6 +1,7 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { calculateNextTarget, checkDuplicate } from "./computer-move.js";
+import { outputMessage } from "../06-DOM/game-screen.js";
 
 export function GameController(player1, player2) {
   let players;
@@ -45,6 +46,7 @@ export function GameController(player1, player2) {
     }
 
     if (checkWinner(opponent)) {
+      outputMessage(`Winner is ${getActivePlayer().name}`);
       return `Winner is ${getActivePlayer().name}`;
     } else {
       switchPlayer();

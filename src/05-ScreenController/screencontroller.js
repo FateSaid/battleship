@@ -1,6 +1,10 @@
 import { GameController } from "../04-Gameplay/gamecontroller";
 import { initPlayerBoardShip } from "./random-ship-placement";
-import { outputMessage } from "../06-DOM/game-screen";
+import {
+  outputMessage,
+  disableBoardEvent,
+  changeStartBtnToRestart,
+} from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
 
@@ -72,9 +76,11 @@ function ScreenController(play1, play2) {
 
         //cell event handler
         cell.addEventListener("click", () => {
-          gameplay.playRound([i, j]);
-
-          updateScreen();
+          if (typeof gameplay.playRound([i, j]) === "string") {
+            disableBoardEvent();
+          } else {
+            updateScreen();
+          }
         });
 
         row.appendChild(cell);
@@ -98,8 +104,13 @@ function ScreenController(play1, play2) {
     const opponent = gameplay.getOpponent();
 
     startBtn.addEventListener("click", () => {
-      initPlayerBoardShip(opponent);
-      updateActiveUserBoard(opponent, gameplay);
+      //check if 2nd board is empty
+      if (document.getElementById("player-two-board").textContent === "") {
+        initPlayerBoardShip(opponent);
+        updateActiveUserBoard(opponent, gameplay);
+        changeStartBtnToRestart();
+      } else {
+      }
     });
   }
 
