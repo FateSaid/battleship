@@ -73,7 +73,6 @@ function createStartDiv() {
 
   const startDiv = document.createElement("div");
   startDiv.classList.add("start-div");
-  startDiv.classList.add("disable");
 
   const startTitle = document.createElement("div");
   startTitle.classList.add("start-title");
