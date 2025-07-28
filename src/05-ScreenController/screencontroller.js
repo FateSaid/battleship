@@ -3,7 +3,8 @@ import { initPlayerBoardShip } from "./random-ship-placement";
 import {
   outputMessage,
   disableBoardEvent,
-  changeStartBtnToRestart,
+  toggleStartBtn,
+  togglesDisable,
 } from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
@@ -90,12 +91,18 @@ function ScreenController(play1, play2) {
   }
   function initRandomShipPlacementListener(gameplay) {
     const btn = document.getElementById("random-ship-btn");
+
+    const startBtn = document.getElementById("start-btn");
     const activePlayer = gameplay.getActivePlayer();
 
     btn.addEventListener("click", () => {
       clearBoard(activePlayer);
       initPlayerBoardShip(activePlayer);
       updateActiveUserBoard(activePlayer);
+
+      if (startBtn.classList.contains("disable")) {
+        togglesDisable(startBtn);
+      }
     });
   }
 
@@ -105,11 +112,14 @@ function ScreenController(play1, play2) {
 
     startBtn.addEventListener("click", () => {
       //check if 2nd board is empty
-      if (document.getElementById("player-two-board").textContent === "") {
+      if (document.getElementById("player-two-board").childElementCount === 0) {
         initPlayerBoardShip(opponent);
         updateActiveUserBoard(opponent, gameplay);
-        changeStartBtnToRestart();
+        toggleStartBtn();
       } else {
+        resetPlayerBoards(gameplay);
+        clearAllBoard();
+        toggleStartBtn();
       }
     });
   }
@@ -128,6 +138,19 @@ function ScreenController(play1, play2) {
     let dom = getActivePlayerDom(player.name);
     dom.textContent = "";
   }
+}
+
+function clearAllBoard() {
+  const playerBoards = document.querySelectorAll(".player-board");
+  playerBoards.forEach((board) => {
+    board.textContent = "";
+  });
+}
+
+function resetPlayerBoards(gameplay) {
+  gameplay.getPlayers().forEach((player) => {
+    player.game.resetVariables();
+  });
 }
 
 export { ScreenController };

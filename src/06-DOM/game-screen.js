@@ -73,6 +73,7 @@ function createStartDiv() {
 
   const startDiv = document.createElement("div");
   startDiv.classList.add("start-div");
+  startDiv.classList.add("disable");
 
   const startTitle = document.createElement("div");
   startTitle.classList.add("start-title");
@@ -80,12 +81,21 @@ function createStartDiv() {
 
   const startBtn = document.createElement("button");
   startBtn.setAttribute("id", "start-btn");
+  startBtn.classList.add("disable");
   startBtn.textContent = "Click";
 
   startDiv.appendChild(startTitle);
   startDiv.appendChild(startBtn);
 
   shipInputDiv.appendChild(startDiv);
+}
+
+function togglesDisable(div) {
+  if (div.classList.contains("disable")) {
+    div.classList.remove("disable");
+  } else {
+    div.classList.add("disable");
+  }
 }
 
 function createMessageOutput() {
@@ -110,14 +120,19 @@ function disableBoardEvent() {
   });
 }
 
-function changeStartBtnToRestart() {
+function toggleStartBtn() {
   const btnTitle = document.querySelector(".start-title");
-  btnTitle.textContent = "Restart Game";
+  if (btnTitle.textContent === "Start Game") {
+    btnTitle.textContent = "Restart Game";
+  } else {
+    btnTitle.textContent = "Start Game";
+  }
 }
 
 export {
   createGameBoard,
   outputMessage,
   disableBoardEvent,
-  changeStartBtnToRestart,
+  toggleStartBtn,
+  togglesDisable,
 };
