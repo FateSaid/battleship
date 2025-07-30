@@ -149,6 +149,7 @@ function ScreenController(play1, play2) {
         resetPlayerBoards(gameplay);
         clearAllBoard();
         toggleStartBtn();
+        outputMessage(`Winner is ${gameplay.getActivePlayer().name}`);
       }
     });
   }

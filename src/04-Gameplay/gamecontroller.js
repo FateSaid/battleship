@@ -54,7 +54,7 @@ export function GameController(player1, player2) {
 
     if (getActivePlayer().name === "Computer") {
       let [a, b] = calculateNextTarget(getOpponent());
-      playRound([a, b]);
+      return playRound([a, b]);
     }
   }
 
