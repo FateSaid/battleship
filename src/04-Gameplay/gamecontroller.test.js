@@ -118,3 +118,19 @@ describe("test resetGame property", () => {
     expect(play2Board[5][7].name).not.toBe("Submarine");
   });
 });
+
+describe("Restarting a game", () => {
+  let gameplay = GameController("Tom", "John");
+
+  let [play1, play2] = gameplay.getPlayers();
+
+  SetupShip(play1, play2);
+
+  //[0, 0], [0, 4] [5, 5], [5, 8] [4, 3], [4, 5][8, 7], [8, 9][2, 4], [2, 5] play1 ships
+
+  gameplay.playRound([3, 2]);
+
+  gameplay.restart();
+
+  expect(gameplay.getActivePlayer().name).toBe("Tom");
+});

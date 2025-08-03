@@ -5,6 +5,7 @@ import {
   disableBoardEvent,
   toggleStartBtn,
   togglesDisable,
+  toggleBoardEvent,
 } from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
@@ -143,13 +144,17 @@ function ScreenController(play1, play2) {
       //check if 2nd board is empty
       if (document.getElementById("player-two-board").childElementCount === 0) {
         initPlayerBoardShip(opponent);
-        updateActiveUserBoard(opponent, gameplay);
+        updateActiveUserBoard(opponent);
         toggleStartBtn();
       } else {
         resetPlayerBoards(gameplay);
         clearAllBoard();
         toggleStartBtn();
-        outputMessage(`Winner is ${gameplay.getActivePlayer().name}`);
+        outputMessage("");
+
+        //output player turn
+        outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
+        toggleBoardEvent(gameplay.getActivePlayer().name);
       }
     });
   }
@@ -168,9 +173,7 @@ function clearAllBoard() {
 }
 
 function resetPlayerBoards(gameplay) {
-  gameplay.getPlayers().forEach((player) => {
-    player.game.resetVariables();
-  });
+  gameplay.restart();
 }
 
 function disableActivePlayerBoard(player, opponent) {

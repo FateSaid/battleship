@@ -66,6 +66,8 @@ export function GameController(player1, player2) {
     players.forEach((player) => {
       player.game.resetVariables();
     });
+
+    activePlayer = players[0];
   };
 
   return {

@@ -128,10 +128,23 @@ function toggleStartBtn() {
   }
 }
 
+function toggleBoardEvent(activePlayer) {
+  const allTitleBoard = document.querySelectorAll(".player-title");
+
+  for (let i = 0; i < allTitleBoard.length; i++) {
+    if (allTitleBoard[i].textContent === activePlayer) {
+      allTitleBoard[i].nextElementSibling.classList.add("disable");
+    } else {
+      allTitleBoard[i].nextElementSibling.classList.remove("disable");
+    }
+  }
+}
+
 export {
   createGameBoard,
   outputMessage,
   disableBoardEvent,
   toggleStartBtn,
   togglesDisable,
+  toggleBoardEvent,
 };
