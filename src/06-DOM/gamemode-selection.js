@@ -36,6 +36,7 @@ function playerSelection(multi) {
     playerOneDiv.appendChild(playerOneLabel);
 
     playerOneInput.setAttribute("placeholder", "Enter Name");
+    playerOneInput.required = true;
     playerOneDiv.appendChild(playerOneInput);
 
     playerInputSelection.appendChild(playerOneDiv);
@@ -58,6 +59,9 @@ function playerSelection(multi) {
 function gameModeEvent(btn) {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
+    if (!checkValidityInputs()) {
+      return;
+    }
     let players = getPlayerInput();
     removePlayerSelection();
     createGameBoard(players[0], players[1]);
@@ -71,9 +75,7 @@ function getPlayerInput() {
   let players = [];
 
   inputs.forEach((input) => {
-    if (input.value !== "") {
-      players.push(input.value);
-    }
+    players.push(input.value);
   });
 
   if (players.length === 1) {
@@ -86,6 +88,28 @@ function getPlayerInput() {
 function removePlayerSelection() {
   const playerForm = document.querySelector(".player-form");
   playerForm.remove();
+}
+
+function checkValidityInputs() {
+  const inputs = document.querySelectorAll("input");
+  const form = document.querySelector("form");
+
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].validity.valueMissing) {
+      form.reportValidity();
+      return false;
+    } else if (
+      inputs[i].value === "Computer" ||
+      inputs[i].value === "computer"
+    ) {
+      inputs[i].setCustomValidity("Enter Valid Name");
+      form.reportValidity();
+      return false;
+    } else {
+      inputs[i].setCustomValidity("");
+    }
+  }
+  return true;
 }
 
 export { playerSelection, removePlayerSelection };
