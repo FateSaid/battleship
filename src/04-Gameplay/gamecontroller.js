@@ -76,5 +76,6 @@ export function GameController(player1, player2) {
     playRound,
     getPlayers,
     restart,
+    switchPlayer,
   };
 }
