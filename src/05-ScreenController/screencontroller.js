@@ -104,9 +104,10 @@ function ScreenController(play1, play2) {
     const btn = document.getElementById("random-ship-btn");
 
     const startBtn = document.getElementById("start-btn");
-    const activePlayer = gameplay.getActivePlayer();
 
     btn.addEventListener("click", () => {
+      const activePlayer = gameplay.getActivePlayer();
+
       clearBoard(activePlayer);
       initPlayerBoardShip(activePlayer);
       updateActiveUserBoard(activePlayer);
@@ -130,11 +131,20 @@ function ScreenController(play1, play2) {
     const opponent = gameplay.getOpponent();
 
     startBtn.addEventListener("click", () => {
-      //stop event if both boards are empty
-      if (
-        getActivePlayerDom(gameplay.getActivePlayer().name)
-          .childElementCount === 0
-      ) {
+      //player 2 turn ship random
+      if (play2 !== "Computer") {
+        if (
+          document.getElementById("player-two-board").childElementCount !== 0
+        ) {
+          clearAllBoard();
+          resetPlayerBoards(gameplay);
+          toggleStartBtn();
+          return;
+        } else {
+          gameplay.switchPlayer();
+          updateScreen();
+        }
+
         return;
       }
 
@@ -151,6 +161,9 @@ function ScreenController(play1, play2) {
         clearAllBoard();
         toggleStartBtn();
         outputMessage("");
+
+        //disable startBtn
+        togglesDisable(startBtn);
 
         //output player turn
         outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
