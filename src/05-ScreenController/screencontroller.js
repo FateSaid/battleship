@@ -131,6 +131,11 @@ function ScreenController(play1, play2) {
     const opponent = gameplay.getOpponent();
 
     startBtn.addEventListener("click", () => {
+      //stop executing if first board is empty
+      if (document.getElementById("player-one-board").childElementCount === 0) {
+        return;
+      }
+
       //player 2 turn ship random
       if (play2 !== "Computer") {
         if (
@@ -143,6 +148,7 @@ function ScreenController(play1, play2) {
         } else {
           gameplay.switchPlayer();
           updateScreen();
+          toggleStartBtn();
         }
 
         return;
