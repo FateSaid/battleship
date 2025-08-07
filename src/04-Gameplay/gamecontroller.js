@@ -54,6 +54,8 @@ export function GameController(player1, player2) {
 
     if (getActivePlayer().name === "Computer") {
       let [a, b] = calculateNextTarget(getOpponent());
+      outputMessage("");
+      outputMessage(`${getActivePlayer().name}'s Turn!`);
       return playRound([a, b]);
     }
   }

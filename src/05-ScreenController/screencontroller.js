@@ -92,6 +92,8 @@ function ScreenController(play1, play2) {
         //cell event handler
         cell.addEventListener("click", () => {
           if (typeof gameplay.playRound([i, j]) === "string") {
+            clearBoard(gameplay.getOpponent());
+            updateActiveUserBoard(gameplay.getOpponent());
             disableBoardEvent();
           } else {
             if (play2 !== "Computer") {
