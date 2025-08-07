@@ -140,6 +140,35 @@ function toggleBoardEvent(activePlayer) {
   }
 }
 
+function clearAllBoard() {
+  const playerBoards = document.querySelectorAll(".player-board");
+  playerBoards.forEach((board) => {
+    board.textContent = "";
+  });
+}
+
+function openDialog(activePlayer) {
+  clearAllBoard();
+
+  const dialog = document.querySelector("dialog");
+
+  const playerTurn = document.querySelector(".player-turn");
+  playerTurn.textContent = "";
+  playerTurn.textContent = `${activePlayer}'s Turn!`;
+
+  dialog.showModal();
+}
+
+function closeModal(activeFunction) {
+  const btn = document.getElementById("close-modal");
+  const dialog = document.querySelector("dialog");
+
+  btn.addEventListener("click", () => {
+    dialog.close();
+    activeFunction();
+  });
+}
+
 export {
   createGameBoard,
   outputMessage,
@@ -147,4 +176,6 @@ export {
   toggleStartBtn,
   togglesDisable,
   toggleBoardEvent,
+  openDialog,
+  closeModal,
 };
