@@ -6,6 +6,8 @@ import {
   toggleStartBtn,
   togglesDisable,
   toggleBoardEvent,
+  openDialog,
+  closeModal,
 } from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
@@ -38,6 +40,7 @@ function ScreenController(play1, play2) {
       gameplay.getActivePlayer().name,
       gameplay.getOpponent().name
     );
+    closeModal(updateScreen);
   };
 
   initRandomShipPlacementListener(gameplay);
@@ -91,7 +94,7 @@ function ScreenController(play1, play2) {
           if (typeof gameplay.playRound([i, j]) === "string") {
             disableBoardEvent();
           } else {
-            updateScreen();
+            openDialog(gameplay.getActivePlayer().name);
           }
         });
 
@@ -147,6 +150,7 @@ function ScreenController(play1, play2) {
           return;
         } else {
           gameplay.switchPlayer();
+          openDialog(gameplay.getActivePlayer().name);
           updateScreen();
           toggleStartBtn();
         }
