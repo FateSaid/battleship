@@ -14,6 +14,7 @@ import {
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
 
+  //close dialog modal btn
   const closeDialogBtn = document.getElementById("close-modal");
   const dialog = document.querySelector("dialog");
 
@@ -22,6 +23,7 @@ function ScreenController(play1, play2) {
     updateScreen();
   });
 
+  //shows whether 1P or 2P game
   let gameMode;
 
   if (play2 === "Computer") {
@@ -213,6 +215,7 @@ function ScreenController(play1, play2) {
           gameplay.switchPlayer();
           openDialog(gameplay.getActivePlayer().name);
           updateScreen();
+          togglesDisable(startBtn);
         }
 
         return;
