@@ -108,7 +108,9 @@ function createMessageOutput() {
 
 function outputMessage(char) {
   const messageDiv = document.querySelector(".message-div");
-  messageDiv.textContent = char;
+  if (messageDiv !== null) {
+    messageDiv.textContent = char;
+  }
 }
 
 function disableBoardEvent() {
@@ -158,17 +160,21 @@ function openDialog(activePlayer) {
 
   dialog.showModal();
 }
+function removeShipInputDivs() {
+  const startDiv = document.querySelector(".start-div");
+  const randomDiv = document.querySelector(".ship-input-random");
+  const messageDiv = document.querySelector(".message-div");
 
-function closeModal(activeFunction) {
-  const btn = document.getElementById("close-modal");
-  const dialog = document.querySelector("dialog");
-
-  btn.addEventListener("click", () => {
-    dialog.close();
-    activeFunction();
-  });
+  startDiv.remove();
+  randomDiv.remove();
+  messageDiv.remove();
 }
 
+function reinstateShipInputDiv() {
+  createShipInputDiv();
+  createStartDiv();
+  createMessageOutput();
+}
 export {
   createGameBoard,
   outputMessage,
@@ -177,5 +183,7 @@ export {
   togglesDisable,
   toggleBoardEvent,
   openDialog,
-  closeModal,
+  reinstateShipInputDiv,
+  removeShipInputDivs,
+  createMessageOutput,
 };

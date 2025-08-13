@@ -6,11 +6,29 @@ import {
   toggleStartBtn,
   togglesDisable,
   toggleBoardEvent,
+  removeShipInputDivs,
+  reinstateShipInputDiv,
+  createMessageOutput,
   openDialog,
-  closeModal,
 } from "../06-DOM/game-screen";
 function ScreenController(play1, play2) {
   let gameplay = GameController(play1, play2);
+
+  const closeDialogBtn = document.getElementById("close-modal");
+  const dialog = document.querySelector("dialog");
+
+  closeDialogBtn.addEventListener("click", () => {
+    dialog.close();
+    updateScreen();
+  });
+
+  let gameMode;
+
+  if (play2 === "Computer") {
+    gameMode = "single";
+  } else if (play2 !== "Computer") {
+    gameMode = "multi";
+  }
 
   //output player turn
   outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
@@ -23,10 +41,12 @@ function ScreenController(play1, play2) {
       board.textContent = "";
     });
 
-    outputMessage("");
+    if (gameMode === "multi") {
+      outputMessage("");
 
-    //output player turn
-    outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
+      //output player turn
+      outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
+    }
 
     //update board
 
@@ -40,7 +60,6 @@ function ScreenController(play1, play2) {
       gameplay.getActivePlayer().name,
       gameplay.getOpponent().name
     );
-    closeModal(updateScreen);
   };
 
   initRandomShipPlacementListener(gameplay);
@@ -95,6 +114,14 @@ function ScreenController(play1, play2) {
             clearBoard(gameplay.getOpponent());
             updateActiveUserBoard(gameplay.getOpponent());
             disableBoardEvent();
+            if (gameMode === "single") {
+              reinstateShipInputDiv();
+              initStartGameListener();
+              outputMessage(`Winner is ${gameplay.getActivePlayer().name}!`);
+              togglesDisable(document.getElementById("random-ship-btn"));
+              togglesDisable(document.getElementById("start-btn"));
+              toggleStartBtn();
+            }
           } else {
             if (play2 !== "Computer") {
               openDialog(gameplay.getActivePlayer().name);
@@ -135,55 +162,60 @@ function ScreenController(play1, play2) {
 
   function initStartGameListener() {
     const startBtn = document.getElementById("start-btn");
-    const randomBtn = document.getElementById("random-ship-btn");
 
-    const opponent = gameplay.getOpponent();
+    let countStart = 0;
+
+    const resetCount = () => (countStart = 0);
 
     startBtn.addEventListener("click", () => {
+      const opponent = gameplay.getOpponent();
+
+      countStart++;
+
       //stop executing if first board is empty
-      if (document.getElementById("player-one-board").childElementCount === 0) {
+      let playerOneBoard = document.getElementById("player-one-board");
+      let playerTwoBoard = document.getElementById("player-two-board");
+
+      if (playerOneBoard.childElementCount === 0) {
         return;
       }
 
+      //Player1 options
+      if (gameMode === "single") {
+        if (playerTwoBoard.childElementCount === 0) {
+          removeShipInputDivs();
+          initPlayerBoardShip(opponent);
+          updateActiveUserBoard(opponent);
+        } else {
+          resetPlayerBoards(gameplay);
+          clearAllBoard();
+          initRandomShipPlacementListener();
+          togglesDisable(playerTwoBoard);
+        }
+      }
+
       //player 2 turn ship random
-      if (play2 !== "Computer") {
-        if (
-          document.getElementById("player-two-board").childElementCount !== 0
-        ) {
+      if (gameMode === "multi") {
+        if (countStart === 2) {
+          removeShipInputDivs();
+          createMessageOutput();
+          gameplay.switchPlayer();
+          updateScreen();
+          return;
+        }
+        if (playerTwoBoard.childElementCount !== 0) {
           clearAllBoard();
           resetPlayerBoards(gameplay);
           toggleStartBtn();
+          resetCount();
           return;
         } else {
           gameplay.switchPlayer();
           openDialog(gameplay.getActivePlayer().name);
           updateScreen();
-          toggleStartBtn();
         }
 
         return;
-      }
-
-      //toggle disable randomBtn
-      togglesDisable(randomBtn);
-
-      //check if 2nd board is empty
-      if (document.getElementById("player-two-board").childElementCount === 0) {
-        initPlayerBoardShip(opponent);
-        updateActiveUserBoard(opponent);
-        toggleStartBtn();
-      } else {
-        resetPlayerBoards(gameplay);
-        clearAllBoard();
-        toggleStartBtn();
-        outputMessage("");
-
-        //disable startBtn
-        togglesDisable(startBtn);
-
-        //output player turn
-        outputMessage(`${gameplay.getActivePlayer().name}'s turn!`);
-        toggleBoardEvent(gameplay.getActivePlayer().name);
       }
     });
   }
