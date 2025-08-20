@@ -161,13 +161,11 @@ function openDialog(activePlayer) {
   dialog.showModal();
 }
 function removeShipInputDivs() {
-  const startDiv = document.querySelector(".start-div");
-  const randomDiv = document.querySelector(".ship-input-random");
-  const messageDiv = document.querySelector(".message-div");
+  const startDiv = document.querySelector(".ship-input-div");
 
-  startDiv.remove();
-  randomDiv.remove();
-  messageDiv.remove();
+  while (startDiv.hasChildNodes()) {
+    startDiv.removeChild(startDiv.firstChild);
+  }
 }
 
 function reinstateShipInputDiv() {

@@ -112,7 +112,8 @@ function ScreenController(play1, play2) {
 
         //cell event handler
         cell.addEventListener("click", () => {
-          if (typeof gameplay.playRound([i, j]) === "string") {
+          let coordinateReturn = gameplay.playRound([i, j]);
+          if (typeof coordinateReturn === "string") {
             clearBoard(gameplay.getOpponent());
             updateActiveUserBoard(gameplay.getOpponent());
             disableBoardEvent();
@@ -123,9 +124,16 @@ function ScreenController(play1, play2) {
               togglesDisable(document.getElementById("random-ship-btn"));
               togglesDisable(document.getElementById("start-btn"));
               toggleStartBtn();
+            } else if (gameMode === "multi") {
+              removeShipInputDivs();
+              reinstateShipInputDiv();
+              initStartGameListener();
+              outputMessage(coordinateReturn);
+              togglesDisable(document.getElementById("start-btn"));
+              toggleStartBtn();
             }
           } else {
-            if (play2 !== "Computer") {
+            if (gameMode === "multi" && !coordinateReturn) {
               openDialog(gameplay.getActivePlayer().name);
             } else {
               updateScreen();
@@ -193,6 +201,8 @@ function ScreenController(play1, play2) {
           clearAllBoard();
           initRandomShipPlacementListener();
           togglesDisable(playerTwoBoard);
+          togglesDisable(document.getElementById("random-ship-btn"));
+          outputMessage(`${gameplay.getActivePlayer().name}'s Turn!`);
         }
       }
 
@@ -209,7 +219,9 @@ function ScreenController(play1, play2) {
           clearAllBoard();
           resetPlayerBoards(gameplay);
           toggleStartBtn();
+          initRandomShipPlacementListener();
           resetCount();
+          toggleBoardEvent(gameplay.getActivePlayer());
           return;
         } else {
           gameplay.switchPlayer();

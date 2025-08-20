@@ -13,7 +13,9 @@ export function attack(
     if (board[x][y].isSunk()) {
       addShipsSunk();
     }
+    return true;
   } else {
     getMissedAttacks().push([x, y]);
+    return false;
   }
 }

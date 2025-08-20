@@ -1,7 +1,6 @@
 import { createPlayer } from "./create-player.js";
 import { Computer } from "../03-Player/player.js";
 import { calculateNextTarget, checkDuplicate } from "./computer-move.js";
-import { outputMessage } from "../06-DOM/game-screen.js";
 
 export function GameController(player1, player2) {
   let players;
@@ -32,6 +31,8 @@ export function GameController(player1, player2) {
   function playRound(coordinates) {
     let [x, y] = coordinates;
 
+    let booleanValue;
+
     let opponent = getOpponent();
 
     let missedArray = opponent.game.getMissedAttacks();
@@ -40,24 +41,27 @@ export function GameController(player1, player2) {
     let combinedArray = missedArray.concat(hitArray);
 
     if (checkDuplicate(combinedArray, coordinates)) {
-      opponent.game.receiveAttack([x, y]);
+      booleanValue = opponent.game.receiveAttack([x, y]);
     } else {
       throw new Error("Duplicate");
     }
 
     if (checkWinner(opponent)) {
-      outputMessage(`Winner is ${getActivePlayer().name}`);
       return `Winner is ${getActivePlayer().name}`;
+    } else if (booleanValue && getActivePlayer().name === "Computer") {
+      let [a, b] = calculateNextTarget(getOpponent());
+      return playRound([a, b]);
+    } else if (booleanValue) {
+      return true;
     } else {
       switchPlayer();
     }
 
     if (getActivePlayer().name === "Computer") {
       let [a, b] = calculateNextTarget(getOpponent());
-      outputMessage("");
-      outputMessage(`${getActivePlayer().name}'s Turn!`);
       return playRound([a, b]);
     }
+    return false;
   }
 
   function checkWinner(opponent) {

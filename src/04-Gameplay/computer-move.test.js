@@ -89,13 +89,14 @@ describe("Calculate Next Target", () => {
     SetupShip(play1, play2);
 
     gameplay.playRound([5, 0]);
-    gameplay.playRound([4, 5]);
     gameplay.playRound([6, 0]);
+
+    let potentialCoordinates = potentialMove(gameplay.getOpponent());
 
     expect([
       [4, 0],
       [7, 0],
-    ]).toContainEqual(potentialMove(gameplay.getActivePlayer()));
+    ]).toContainEqual(potentialCoordinates);
   });
 
   test("Should filter if adjacent hits are same ship", () => {
@@ -104,19 +105,27 @@ describe("Calculate Next Target", () => {
     SetupShip(play1, play2);
 
     gameplay.playRound([0, 4]);
-    gameplay.playRound([0, 0]);
+
     gameplay.playRound([5, 7]);
-    gameplay.playRound([5, 5]);
+
     gameplay.playRound([0, 5]);
 
-    expect(filterSameShipHit(gameplay.getActivePlayer())).toEqual([
-      [0, 4],
-      [0, 5],
-    ]);
+    expect(JSON.stringify(filterSameShipHit(gameplay.getOpponent()))).toEqual(
+      JSON.stringify([
+        [0, 4],
+        [0, 5],
+      ])
+    );
+
+    gameplay.playRound([9, 9]);
+
+    gameplay.playRound([0, 0]);
 
     gameplay.playRound([0, 1]);
 
-    expect(filterSameShipHit(gameplay.getActivePlayer())).toEqual([
+    let hillCoord = filterSameShipHit(gameplay.getOpponent());
+
+    expect(hillCoord).toEqual([
       [0, 0],
       [0, 1],
     ]);
@@ -127,19 +136,19 @@ describe("Calculate Next Target", () => {
     let [play1, play2] = gameplay.getPlayers();
     SetupShip(play1, play2);
 
-    //player 1 hitAttacks [4,5],[8,9],[4,4] // missAttacks [4,6],[4,7]
+    //player 1 hitAttacks [4,5],[4,4] // missAttacks [4,6],[4,7]
 
     gameplay.playRound([0, 0]);
     gameplay.playRound([4, 5]);
-    gameplay.playRound([5, 3]);
+
     gameplay.playRound([4, 6]);
     gameplay.playRound([6, 3]);
-    gameplay.playRound([8, 9]);
-    gameplay.playRound([3, 5]);
-    gameplay.playRound([4, 4]);
-    gameplay.playRound([5, 5]);
 
-    expect(calculateNextTarget(gameplay.getOpponent())).toEqual([4, 3]);
+    gameplay.playRound([4, 4]);
+
+    let calculateResult = calculateNextTarget(gameplay.getOpponent());
+
+    expect(calculateResult).toEqual([4, 3]);
   });
 
   test("Identify if ship is horizontal or vertical", () => {
@@ -148,17 +157,20 @@ describe("Calculate Next Target", () => {
     SetupShip(play1, play2);
 
     gameplay.playRound([5, 7]);
-    gameplay.playRound([5, 5]);
+
     gameplay.playRound([6, 7]);
+
+    gameplay.playRound([9, 9]);
 
     expect(
       getShipOrientation(gameplay.getActivePlayer().game.getHitAttacks())
     ).toBe("Vertical");
 
+    gameplay.playRound([5, 5]);
     gameplay.playRound([5, 6]);
 
     expect(
-      getShipOrientation(gameplay.getActivePlayer().game.getHitAttacks())
+      getShipOrientation(gameplay.getOpponent().game.getHitAttacks())
     ).toBe("Horizontal");
   });
 
@@ -168,12 +180,24 @@ describe("Calculate Next Target", () => {
     SetupShip(play1, play2);
 
     gameplay.playRound([6, 0]);
-    gameplay.playRound([0, 2]);
+
     gameplay.playRound([7, 0]);
 
     expect([
       [5, 0],
       [8, 0],
-    ]).toContainEqual(predictShipLocation(gameplay.getActivePlayer()));
+    ]).toContainEqual(predictShipLocation(gameplay.getOpponent()));
+  });
+});
+
+describe("Battleship active player", () => {
+  const gameplay = GameController("User", "testCom");
+  let [play1, play2] = gameplay.getPlayers();
+  SetupShip(play1, play2);
+
+  test("should still be User if computer ship is hit", () => {
+    gameplay.playRound([5, 0]);
+
+    expect(gameplay.getActivePlayer().name).toBe("User");
   });
 });

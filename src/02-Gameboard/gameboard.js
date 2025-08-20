@@ -48,7 +48,13 @@ export function Gameboard() {
   }
 
   function receiveAttack(coordinate) {
-    attack(coordinate, board, getMissedAttacks, addShipsSunk, getHitAttacks);
+    return attack(
+      coordinate,
+      board,
+      getMissedAttacks,
+      addShipsSunk,
+      getHitAttacks
+    );
   }
 
   return {
